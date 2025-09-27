@@ -21,10 +21,10 @@
 ## 📸 界面截图
 
 ### 桌面端
-桌面端界面(![alt text](image.png)
+(![alt text](image.png)
 
 ### 移动端
-![移动端界面](![alt text](image-1.png)
+(![alt text](image-1.png)
 移动端的界面使用浏览器的开发者模式模拟的所以看起来可能会很小
 
 ## 🛠️ 部署方式
