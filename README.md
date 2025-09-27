@@ -65,9 +65,8 @@
 修改 `index.html` 中的 API 端点：
 ```javascript
 syncEndpoint: 'https://your-worker.your-subdomain.workers.dev/api/sync',
-你也可以绑定你自己的域名，不过你要在你的域名后面添加/api/sync（例如xxxxxx.com//api/sync)
 ```
-
+你也可以绑定你自己的域名，不过你要在你的域名后面添加/api/sync（例如xxxxxx.com//api/sync)
 #### 步骤 4：部署网站
 1. 进入 `Workers 和 Pages` → `创建应用程序` → `Pages`
 2. 连接 GitHub 仓库或上传文件
