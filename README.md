@@ -54,12 +54,13 @@
 3. 点击 `创建命名空间`，名称填写：`BOOKMARKS_KV`
 
 #### 步骤 2：部署 Worker API
-1. 进入 `Workers 和 Pages` → `创建应用程序` → `创建 Worker`
-2. 将 `worker.js` 的内容复制到编辑器
-3. 在 `设置` → `变量` 中绑定 KV：
+1. 进入 `Workers 和 Pages` → `创建应用程序` → `从Hello World开始`
+2. 点击编辑代码
+3. 将 `worker.js` 的内容复制到编辑器
+4. 在 `设置` → `变量` 中绑定 KV：
    - 变量名称：`BOOKMARKS_KV`
    - KV 命名空间：选择刚创建的命名空间
-4. 记录 Worker URL
+5. 记录 Worker URL
 
 #### 步骤 3：配置前端
 修改 `index.html` 中的 API 端点：
