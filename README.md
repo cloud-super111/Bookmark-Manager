@@ -46,13 +46,7 @@
 
 ## 📋 快速部署
 
-### 1. 克隆项目
-```bash
-git clone https://github.com/your-username/bookmark-manager.git
-cd bookmark-manager
-```
-
-### 2. Cloudflare 完整部署
+### 1. Cloudflare 完整部署
 
 #### 步骤 1：创建 KV 命名空间
 1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/)
