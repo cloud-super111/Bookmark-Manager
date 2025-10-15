@@ -2,6 +2,7 @@
 
 一个功能完整的个人书签管理系统，支持多设备实时同步，基于 Cloudflare 免费服务构建。
 
+终于更新了，这版bug有点多测试了很久（托更就拖更没那么多理由）
 ## ✨ 功能特色
 
 - 🔐 **密码保护** - 安全的登录验证系统
@@ -71,10 +72,10 @@
 #### 步骤 3：配置前端
 修改 `index.html` 中的 API 端点：
 ```javascript
-syncEndpoint: 'https://your-worker.your-subdomain.workers.dev/api/sync',
+syncEndpoint: 'https://your-worker.your-subdomain.workers.dev',
 ```
 
-你也可以绑定你自己的域名，不过你要在你的域名后面添加/api/sync（例如xxxxxx.com/api/sync)
+你也可以绑定你自己的域名，用根域名就行了
 
 #### 步骤 4：部署网站
 1. 进入 `Workers 和 Pages` → `创建应用程序` → `Pages`
@@ -84,34 +85,9 @@ syncEndpoint: 'https://your-worker.your-subdomain.workers.dev/api/sync',
 ## ⚙️ 配置选项
 
 ### 修改密码
-在 `index.html` 中找到并修改：
-```javascript
-const CONFIG = {
-    password: 'your-new-password', // 修改为您的密码
-    // ...
-};
-```
+去管理员界面改（最开始先用默认密码进去修改）
 
-### 自定义主题
-修改 CSS 变量来更改界面颜色：
-```css
-:root {
-    --primary-color: #667eea;
-    --secondary-color: #764ba2;
-    --success-color: #28a745;
-    --danger-color: #dc3545;
-}
-```
-
-### 调整同步间隔
-修改自动同步频率（毫秒）：
-```javascript
-syncInterval = setInterval(() => {
-    // 同步逻辑
-}, 30000); // 30秒，可修改为其他值
-```
-
-## 🎯 使用说明
+### 🎯 使用说明
 
 ### 基本操作
 1. **登录**：使用设置的密码登录系统
@@ -198,9 +174,6 @@ A: 确保浏览器支持 HTML5 拖拽 API，检查是否有 JavaScript 错误
 **Q: 文件夹删除后书签丢失**
 A: 删除文件夹时，书签会自动移动到根目录（未分类），不会丢失
 
-**Q: 管理员只能用默认密码**
-A:后天之前应该会改好（美国时间8月1日之前）
-
 ## 💰 成本说明
 
 使用 Cloudflare 免费套餐：
@@ -219,7 +192,6 @@ A:后天之前应该会改好（美国时间8月1日之前）
 - [ ] **主题切换** - 深色/浅色主题
 - [ ] **书签图标** - 自动获取网站图标
 - [ ] **搜索优化** - 模糊搜索和搜索历史
-- [ ] **数据分析** - 访问统计和使用分析
 - [ ] **PWA 支持** - 离线使用和桌面安装
 
 ### 技术改进

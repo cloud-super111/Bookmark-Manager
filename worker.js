@@ -1,4 +1,4 @@
-// Cloudflare Workers 脚本 - 书签同步API
+// Cloudflare Workers 脚本 - 书签同步API（完整版）
 // 直接复制粘贴到 Cloudflare Workers 编辑器中
 // 记得在 Settings > Variables 中绑定 KV 命名空间 BOOKMARKS_KV
 
@@ -6,34 +6,39 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     
-    // CORS 支持
+    // 增强的 CORS 支持
     const corsHeaders = {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
+      'Access-Control-Max-Age': '86400',
     };
 
-    // 处理 OPTIONS 请求
+    // 处理 OPTIONS 预检请求
     if (request.method === 'OPTIONS') {
       return new Response(null, {
-        status: 200,
+        status: 204,
         headers: corsHeaders,
       });
     }
 
     try {
-      // 根据路径路由请求
       if (url.pathname === '/api/sync') {
         return await handleSync(request, env, corsHeaders);
       } else if (url.pathname === '/api/health') {
-        return new Response(JSON.stringify({ status: 'ok', timestamp: new Date().toISOString() }), {
-          status: 200,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        });
+        return handleHealth(corsHeaders);
+      } else if (url.pathname === '/api/stats') {
+        return await handleStats(request, env, corsHeaders);
+      } else if (url.pathname === '/' || url.pathname === '/index.html') {
+        return handleWelcome(corsHeaders);
       } else {
-        return new Response('Not Found', { 
+        return new Response(JSON.stringify({ 
+          success: false,
+          error: 'Not Found',
+          message: '请求的端点不存在'
+        }), { 
           status: 404,
-          headers: corsHeaders,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       }
     } catch (error) {
@@ -41,7 +46,7 @@ export default {
       return new Response(JSON.stringify({ 
         success: false, 
         error: 'Internal Server Error',
-        message: error.message 
+        message: error.message
       }), {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -50,32 +55,155 @@ export default {
   },
 };
 
+// 欢迎页面
+function handleWelcome(corsHeaders) {
+  const html = `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>书签同步 API</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 600px;
+    }
+    h1 { color: #667eea; margin-bottom: 20px; }
+    .status { 
+      display: inline-block;
+      padding: 8px 16px;
+      background: #d4edda;
+      color: #155724;
+      border-radius: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .endpoint {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 10px 0;
+      border-left: 4px solid #667eea;
+    }
+    .endpoint code {
+      background: #e9ecef;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    .method {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 12px;
+      margin-right: 10px;
+    }
+    .get { background: #28a745; color: white; }
+    .post { background: #007bff; color: white; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔖 书签同步 API</h1>
+    <div class="status">✅ 服务运行中</div>
+    
+    <h3>可用端点：</h3>
+    
+    <div class="endpoint">
+      <span class="method get">GET</span>
+      <strong>/api/health</strong>
+      <p>健康检查端点，返回服务状态</p>
+    </div>
+    
+    <div class="endpoint">
+      <span class="method get">GET</span>
+      <strong>/api/sync?username=用户名</strong>
+      <p>拉取指定用户的书签数据</p>
+    </div>
+    
+    <div class="endpoint">
+      <span class="method post">POST</span>
+      <strong>/api/sync</strong>
+      <p>推送书签数据到云端</p>
+      <p>请求体: <code>{ "username": "用户名", "bookmarks": [], "folders": [] }</code></p>
+    </div>
+    
+    <div class="endpoint">
+      <span class="method get">GET</span>
+      <strong>/api/stats</strong>
+      <p>获取系统统计信息</p>
+    </div>
+    
+    <p style="margin-top: 30px; color: #6c757d; font-size: 14px;">
+      📝 此 API 支持多用户书签同步<br>
+      🔒 当前版本：无身份验证（请在生产环境中添加身份验证）
+    </p>
+  </div>
+</body>
+</html>`;
+  
+  return new Response(html, {
+    status: 200,
+    headers: {
+      'Content-Type': 'text/html;charset=UTF-8',
+    },
+  });
+}
+
+// 健康检查
+function handleHealth(corsHeaders) {
+  return new Response(JSON.stringify({ 
+    status: 'ok',
+    service: 'Bookmark Sync API',
+    version: '2.2.0',
+    timestamp: new Date().toISOString()
+  }), {
+    status: 200,
+    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+  });
+}
+
 // 处理同步请求
 async function handleSync(request, env, corsHeaders) {
   if (request.method === 'GET') {
-    // 获取书签数据
     return await handlePull(request, env, corsHeaders);
   } else if (request.method === 'POST') {
-    // 上传书签数据
     return await handlePush(request, env, corsHeaders);
   } else {
-    return new Response('Method Not Allowed', { 
+    return new Response(JSON.stringify({
+      success: false,
+      error: 'Method Not Allowed'
+    }), { 
       status: 405,
-      headers: corsHeaders,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   }
 }
 
-// 拉取书签数据
+// 拉取数据
 async function handlePull(request, env, corsHeaders) {
   const url = new URL(request.url);
-  const deviceId = url.searchParams.get('deviceId');
-  const action = url.searchParams.get('action');
+  const username = url.searchParams.get('username');
 
-  if (!deviceId) {
+  if (!username) {
     return new Response(JSON.stringify({ 
       success: false, 
-      error: 'Device ID required' 
+      error: 'Username required',
+      message: '缺少用户名参数'
     }), {
       status: 400,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -83,27 +211,30 @@ async function handlePull(request, env, corsHeaders) {
   }
 
   try {
-    // 从 KV 存储获取全局书签数据
-    const globalBookmarks = await env.BOOKMARKS_KV.get('global_bookmarks', 'json') || [];
+    const userKey = `user_${username}`;
+    const userData = await env.BOOKMARKS_KV.get(userKey, 'json');
     
-    // 获取设备最后同步时间
-    const deviceSyncTime = await env.BOOKMARKS_KV.get(`device_${deviceId}_last_sync`);
-    
-    // 如果有同步时间，只返回更新的书签
-    let bookmarksToReturn = globalBookmarks;
-    if (deviceSyncTime && action === 'pull') {
-      const lastSyncDate = new Date(deviceSyncTime);
-      bookmarksToReturn = globalBookmarks.filter(bookmark => 
-        new Date(bookmark.updatedAt) > lastSyncDate
-      );
+    if (!userData) {
+      return new Response(JSON.stringify({
+        success: true,
+        bookmarks: [],
+        folders: [],
+        lastSync: null,
+        message: '该用户还没有云端数据'
+      }), {
+        status: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     return new Response(JSON.stringify({
       success: true,
-      bookmarks: bookmarksToReturn,
-      totalCount: globalBookmarks.length,
-      deviceLastSync: deviceSyncTime,
-      serverTime: new Date().toISOString()
+      bookmarks: userData.bookmarks || [],
+      folders: userData.folders || [],
+      lastSync: userData.lastSync || null,
+      syncTime: userData.syncTime || null,
+      bookmarksCount: (userData.bookmarks || []).length,
+      foldersCount: (userData.folders || []).length
     }), {
       status: 200,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -113,7 +244,7 @@ async function handlePull(request, env, corsHeaders) {
     console.error('Pull error:', error);
     return new Response(JSON.stringify({ 
       success: false, 
-      error: 'Failed to pull bookmarks',
+      error: 'Failed to pull data',
       message: error.message 
     }), {
       status: 500,
@@ -122,44 +253,70 @@ async function handlePull(request, env, corsHeaders) {
   }
 }
 
-// 推送书签数据
+// 推送数据
 async function handlePush(request, env, corsHeaders) {
   try {
     const data = await request.json();
-    const { deviceId, bookmarks, timestamp, action } = data;
+    const { username, bookmarks, folders } = data;
 
-    if (!deviceId || !bookmarks) {
+    if (!username) {
       return new Response(JSON.stringify({ 
         success: false, 
-        error: 'Device ID and bookmarks required' 
+        error: 'Username required',
+        message: '缺少用户名参数'
       }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
-    // 获取现有的全局书签
-    const existingBookmarks = await env.BOOKMARKS_KV.get('global_bookmarks', 'json') || [];
+    if (!bookmarks) {
+      return new Response(JSON.stringify({ 
+        success: false, 
+        error: 'Bookmarks required',
+        message: '缺少书签数据'
+      }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // 验证数据格式
+    if (!Array.isArray(bookmarks)) {
+      return new Response(JSON.stringify({ 
+        success: false, 
+        error: 'Invalid data format',
+        message: 'bookmarks 必须是数组'
+      }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    const userKey = `user_${username}`;
+    const syncTime = new Date().toISOString();
     
-    // 合并书签数据
-    const mergedBookmarks = await mergeBookmarks(existingBookmarks, bookmarks, deviceId);
-    
-    // 保存合并后的书签到 KV
-    await env.BOOKMARKS_KV.put('global_bookmarks', JSON.stringify(mergedBookmarks));
-    
-    // 更新设备最后同步时间
-    await env.BOOKMARKS_KV.put(`device_${deviceId}_last_sync`, timestamp || new Date().toISOString());
-    
-    // 记录同步日志
-    await logSyncActivity(env, deviceId, action, bookmarks.length);
+    const userData = {
+      username: username,
+      bookmarks: bookmarks,
+      folders: folders || [],
+      lastSync: syncTime,
+      syncTime: syncTime,
+      updatedAt: syncTime,
+      bookmarksCount: bookmarks.length,
+      foldersCount: (folders || []).length
+    };
+
+    // 保存到 KV
+    await env.BOOKMARKS_KV.put(userKey, JSON.stringify(userData));
 
     return new Response(JSON.stringify({
       success: true,
-      message: 'Bookmarks synced successfully',
-      bookmarks: mergedBookmarks,
-      syncedCount: bookmarks.length,
-      totalCount: mergedBookmarks.length,
-      syncTime: new Date().toISOString()
+      message: '数据同步成功',
+      username: username,
+      bookmarksCount: bookmarks.length,
+      foldersCount: (folders || []).length,
+      syncTime: syncTime
     }), {
       status: 200,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -169,7 +326,7 @@ async function handlePush(request, env, corsHeaders) {
     console.error('Push error:', error);
     return new Response(JSON.stringify({ 
       success: false, 
-      error: 'Failed to push bookmarks',
+      error: 'Failed to push data',
       message: error.message 
     }), {
       status: 500,
@@ -178,80 +335,51 @@ async function handlePush(request, env, corsHeaders) {
   }
 }
 
-// 合并书签数据
-async function mergeBookmarks(existingBookmarks, newBookmarks, deviceId) {
-  const bookmarkMap = new Map();
-  
-  // 先添加现有书签
-  existingBookmarks.forEach(bookmark => {
-    bookmarkMap.set(bookmark.id, bookmark);
-  });
-  
-  // 合并新书签
-  newBookmarks.forEach(bookmark => {
-    const existingBookmark = bookmarkMap.get(bookmark.id);
+// 统计信息
+async function handleStats(request, env, corsHeaders) {
+  try {
+    // 获取所有用户的统计信息
+    const list = await env.BOOKMARKS_KV.list({ prefix: 'user_' });
     
-    if (!existingBookmark) {
-      // 新书签，直接添加
-      bookmarkMap.set(bookmark.id, {
-        ...bookmark,
-        syncedDevices: [deviceId],
-        lastSyncTime: new Date().toISOString()
-      });
-    } else {
-      // 现有书签，检查更新时间
-      const existingTime = new Date(existingBookmark.updatedAt);
-      const newTime = new Date(bookmark.updatedAt);
-      
-      if (newTime > existingTime) {
-        // 新数据更新，使用新数据
-        bookmarkMap.set(bookmark.id, {
-          ...bookmark,
-          syncedDevices: [...new Set([...(existingBookmark.syncedDevices || []), deviceId])],
-          lastSyncTime: new Date().toISOString()
-        });
-      } else {
-        // 旧数据，只更新同步设备列表
-        bookmarkMap.set(bookmark.id, {
-          ...existingBookmark,
-          syncedDevices: [...new Set([...(existingBookmark.syncedDevices || []), deviceId])],
-          lastSyncTime: new Date().toISOString()
-        });
+    let totalUsers = 0;
+    let totalBookmarks = 0;
+    let totalFolders = 0;
+    
+    for (const key of list.keys) {
+      totalUsers++;
+      try {
+        const userData = await env.BOOKMARKS_KV.get(key.name, 'json');
+        if (userData) {
+          totalBookmarks += (userData.bookmarks || []).length;
+          totalFolders += (userData.folders || []).length;
+        }
+      } catch (e) {
+        console.error('Error reading user data:', e);
       }
     }
-  });
-  
-  // 按创建时间排序，最新的在前面
-  return Array.from(bookmarkMap.values()).sort((a, b) => 
-    new Date(b.createdAt) - new Date(a.createdAt)
-  );
-}
 
-// 记录同步活动日志
-async function logSyncActivity(env, deviceId, action, count) {
-  try {
-    const logEntry = {
-      deviceId,
-      action,
-      count,
-      timestamp: new Date().toISOString(),
-      userAgent: self.navigator?.userAgent || 'Unknown'
-    };
-    
-    // 获取现有日志
-    const existingLogs = await env.BOOKMARKS_KV.get('sync_logs', 'json') || [];
-    
-    // 添加新日志条目
-    existingLogs.unshift(logEntry);
-    
-    // 保持最近1000条日志
-    const trimmedLogs = existingLogs.slice(0, 1000);
-    
-    // 保存日志
-    await env.BOOKMARKS_KV.put('sync_logs', JSON.stringify(trimmedLogs));
-    
+    return new Response(JSON.stringify({
+      success: true,
+      stats: {
+        totalUsers: totalUsers,
+        totalBookmarks: totalBookmarks,
+        totalFolders: totalFolders,
+        timestamp: new Date().toISOString()
+      }
+    }), {
+      status: 200,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
+
   } catch (error) {
-    console.error('Failed to log sync activity:', error);
-    // 日志记录失败不应该影响主要功能
+    console.error('Stats error:', error);
+    return new Response(JSON.stringify({ 
+      success: false, 
+      error: 'Failed to get stats',
+      message: error.message 
+    }), {
+      status: 500,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
   }
 }
