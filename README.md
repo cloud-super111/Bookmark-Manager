@@ -69,15 +69,7 @@
    - KV 命名空间：选择刚创建的命名空间
 5. 记录 Worker URL（你也可以绑定你自己的域名）
 
-#### 步骤 3：配置前端
-修改 `index.html` 中的 API 端点：
-```javascript
-syncEndpoint: 'https://your-worker.your-subdomain.workers.dev',
-```
-
-你也可以绑定你自己的域名，用根域名就行了
-
-#### 步骤 4：部署网站
+#### 步骤 3：部署网站
 1. 进入 `Workers 和 Pages` → `创建应用程序` → `Pages`
 2. 连接 GitHub 仓库或上传文件
 3. 部署完成
