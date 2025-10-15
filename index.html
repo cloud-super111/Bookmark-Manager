@@ -31,7 +31,6 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             max-width: 400px;
             margin: 100px auto;
-            backdrop-filter: blur(10px);
         }
 
         .main-content {
@@ -77,6 +76,14 @@
             align-items: center;
         }
 
+        .user-info {
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+
         .sync-status {
             padding: 8px 16px;
             border-radius: 20px;
@@ -97,14 +104,14 @@
             color: #856404;
         }
 
-        .sync-status.error {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
         .sync-status.offline {
             background: #f1f3f4;
             color: #5f6368;
+        }
+
+        .sync-status.error {
+            background: #f8d7da;
+            color: #721c24;
         }
 
         .add-btn, .logout-btn, .sync-btn, .folder-btn {
@@ -136,7 +143,13 @@
             font-size: 14px;
         }
 
-        .add-btn:hover, .logout-btn:hover, .sync-btn:hover, .folder-btn:hover {
+        .admin-btn {
+            background: #dc3545;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        .add-btn:hover, .logout-btn:hover, .sync-btn:hover, .folder-btn:hover, .admin-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
@@ -202,7 +215,7 @@
             box-shadow: 0 0 10px rgba(40, 167, 69, 0.3);
         }
 
-        .folder-tab .folder-delete {
+        .folder-delete {
             display: none;
             position: absolute;
             right: 5px;
@@ -223,11 +236,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .folder-tab[data-folder="all"] .folder-delete,
-        .folder-tab[data-folder=""] .folder-delete {
-            display: none !important;
         }
 
         .bookmarks-grid {
@@ -265,49 +273,6 @@
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 12px 35px rgba(102, 126, 234, 0.3);
             background: linear-gradient(145deg, #f8f9ff, #ffffff);
-        }
-
-        .drag-instruction {
-            position: fixed;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(102, 126, 234, 0.9);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            z-index: 1200;
-            display: none;
-            backdrop-filter: blur(10px);
-        }
-
-        .drag-instruction.show {
-            display: block;
-            animation: slideDown 0.3s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-        }
-
-        .bookmark-card.pending-sync {
-            border-left-color: #ffc107;
-        }
-
-        .bookmark-card.pending-sync::after {
-            content: "⏳";
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 12px;
         }
 
         .bookmark-title {
@@ -470,14 +435,6 @@
             color: #666;
         }
 
-        .device-info {
-            background: #e3f2fd;
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-
         .toast {
             position: fixed;
             top: 20px;
@@ -488,7 +445,7 @@
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             z-index: 1100;
-            transform: translateX(100%);
+            transform: translateX(400px);
             transition: transform 0.3s ease;
         }
 
@@ -507,35 +464,6 @@
 
         .toast.info {
             background: #17a2b8;
-        }
-
-        .update-banner {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #667eea;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            z-index: 1050;
-            display: none;
-            animation: slideUp 0.3s ease;
-        }
-
-        .update-banner.show {
-            display: block;
-        }
-
-        .update-banner .close-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            float: right;
-            margin-left: 10px;
         }
 
         .real-time-clock {
@@ -559,25 +487,31 @@
             color: #666;
         }
 
-        .drag-placeholder {
-            height: 200px;
-            border: 2px dashed #667eea;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #667eea;
-            font-weight: 500;
-            background: rgba(102, 126, 234, 0.1);
+        .admin-panel {
+            display: none;
         }
 
-        @keyframes slideUp {
-            from {
-                transform: translate(-50%, 100%);
-            }
-            to {
-                transform: translate(-50%, 0);
-            }
+        .admin-section {
+            margin-bottom: 30px;
+        }
+
+        .user-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: white;
+        }
+
+        .cloud-config-section {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 2px solid #2196f3;
         }
 
         @media (max-width: 768px) {
@@ -602,10 +536,6 @@
                 justify-content: center;
             }
 
-            .folders-container {
-                justify-content: center;
-            }
-
             .time-display {
                 font-size: 20px;
             }
@@ -616,20 +546,50 @@
     <!-- 登录表单 -->
     <div class="login-form" id="loginForm">
         <h2 style="text-align: center; margin-bottom: 30px; color: #667eea;">🔖 书签管理系统</h2>
-        <div class="device-info">
-            <strong>📱 设备ID：</strong><span id="deviceId">生成中...</span><br>
-            <small>此ID用于多设备同步识别</small>
-        </div>
-        <form onsubmit="login(event)">
-            <div class="form-group">
-                <label class="form-label">密码</label>
-                <input type="password" id="password" class="form-input" placeholder="请输入密码" required>
+        
+        <!-- 用户登录 -->
+        <div id="userLogin">
+            <form onsubmit="return login(event)">
+                <div class="form-group">
+                    <label class="form-label">用户名</label>
+                    <input type="text" id="username" class="form-input" placeholder="请输入用户名" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">密码</label>
+                    <input type="password" id="password" class="form-input" placeholder="请输入密码" required>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%;">登录</button>
+            </form>
+            <div style="text-align: center; margin-top: 15px;">
+                <button type="button" class="btn-secondary" onclick="showRegisterForm()" style="width: 100%;">注册新用户</button>
             </div>
-            <button type="submit" class="btn-primary" style="width: 100%;">登录</button>
-        </form>
+        </div>
+
+        <!-- 用户注册 -->
+        <div id="userRegister" style="display: none;">
+            <form onsubmit="return register(event)">
+                <div class="form-group">
+                    <label class="form-label">用户名</label>
+                    <input type="text" id="regUsername" class="form-input" placeholder="请输入用户名" required minlength="3">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">密码</label>
+                    <input type="password" id="regPassword" class="form-input" placeholder="请输入密码" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">确认密码</label>
+                    <input type="password" id="regConfirmPassword" class="form-input" placeholder="请确认密码" required minlength="6">
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%;">注册</button>
+            </form>
+            <div style="text-align: center; margin-top: 15px;">
+                <button type="button" class="btn-secondary" onclick="showLoginForm()" style="width: 100%;">返回登录</button>
+            </div>
+        </div>
+
         <p style="text-align: center; margin-top: 20px; font-size: 14px; color: #666;">
-            默认密码: admin123<br>
-            <small>支持多设备自动同步</small>
+            管理员账户: admin / admin888<br>
+            <small>支持多设备云端同步</small>
         </p>
         <div style="text-align: center; margin-top: 15px;">
             <a href="https://github.com/cloud-super111/Bookmark-Manager" target="_blank" style="color: #667eea; text-decoration: none; font-size: 14px;">
@@ -651,12 +611,16 @@
                 <input type="text" class="search-input" placeholder="🔍 搜索书签..." onkeyup="searchBookmarks()">
             </div>
             <div class="header-buttons">
+                <div class="user-info">
+                    👤 <span id="currentUserDisplay">游客</span>
+                </div>
                 <div class="sync-status offline" id="syncStatus">
                     <span>📡</span> <span id="syncText">离线模式</span>
                 </div>
                 <button class="folder-btn" onclick="showFolderModal()">📁 文件夹</button>
                 <button class="sync-btn" onclick="manualSync()">🔄 同步</button>
                 <button class="add-btn" onclick="showAddModal()">➕ 添加书签</button>
+                <button class="admin-btn sync-btn" onclick="showAdminPanel()" id="adminBtn" style="display: none;">⚙️ 管理</button>
                 <button class="logout-btn" onclick="logout()">🚪 退出</button>
             </div>
         </div>
@@ -697,11 +661,128 @@
         </div>
     </div>
 
+    <!-- 管理员界面 -->
+    <div class="container admin-panel" id="adminPanel">
+        <div class="header">
+            <h2 style="color: #667eea; margin: 0;">⚙️ 管理员控制台</h2>
+            <div class="header-buttons">
+                <button class="btn-secondary" onclick="backToMain()">← 返回主界面</button>
+                <button class="logout-btn" onclick="logout()">🚪 退出</button>
+            </div>
+        </div>
+
+        <!-- 云端同步配置 -->
+        <div class="admin-section">
+            <div class="stat-card cloud-config-section">
+                <h3 style="color: #2196f3; margin-bottom: 20px;">☁️ 云端同步配置</h3>
+                <div class="form-group">
+                    <label class="form-label">Cloudflare Workers API 地址</label>
+                    <input type="url" id="cloudApiUrl" class="form-input" placeholder="https://your-worker.your-subdomain.workers.dev">
+                    <small style="color: #666; display: block; margin-top: 5px;">
+                        请输入您部署的 Cloudflare Workers 地址
+                    </small>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button class="btn-primary" onclick="saveCloudConfig()">保存配置</button>
+                    <button class="btn-secondary" onclick="testCloudConnection()">测试连接</button>
+                </div>
+                <div id="cloudConfigStatus" style="margin-top: 15px; padding: 10px; border-radius: 5px; display: none;"></div>
+            </div>
+        </div>
+
+        <!-- 用户管理 -->
+        <div class="admin-section">
+            <div class="stat-card">
+                <h3 style="color: #667eea; margin-bottom: 20px;">👥 用户管理</h3>
+                
+                <!-- 用户统计 -->
+                <div class="stats" style="margin-bottom: 20px;">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalUsers">0</div>
+                        <div class="stat-label">总用户数</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="activeUsers">0</div>
+                        <div class="stat-label">活跃用户</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalBookmarksAll">0</div>
+                        <div class="stat-label">总书签数</div>
+                    </div>
+                </div>
+
+                <!-- 添加用户 -->
+                <div class="form-group">
+                    <h4>➕ 添加新用户</h4>
+                    <form onsubmit="return adminAddUser(event)" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <input type="text" id="adminUsername" placeholder="用户名" required style="flex: 1; min-width: 150px;" class="form-input">
+                        <input type="password" id="adminPassword" placeholder="密码" required style="flex: 1; min-width: 150px;" class="form-input">
+                        <button type="submit" class="btn-primary">添加用户</button>
+                    </form>
+                </div>
+
+                <!-- 用户列表 -->
+                <div class="form-group">
+                    <h4>📋 用户列表</h4>
+                    <div id="usersList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 系统设置 -->
+        <div class="admin-section">
+            <div class="stat-card">
+                <h3 style="color: #667eea; margin-bottom: 20px;">🛠️ 系统设置</h3>
+                
+                <!-- 管理员账户设置 -->
+                <div class="form-group" style="background: #f8d7da; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 2px solid #f5c6cb;">
+                    <h4>👤 管理员账户设置</h4>
+                    
+                    <!-- 修改管理员用户名 -->
+                    <div style="margin-top: 15px; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="margin-bottom: 10px; color: #333;">✏️ 修改管理员用户名</h5>
+                        <form onsubmit="return changeAdminUsername(event)" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <input type="text" id="currentAdminUsernameInput" placeholder="当前用户名" required style="flex: 1; min-width: 150px;" class="form-input" readonly>
+                            <input type="text" id="newAdminUsername" placeholder="新用户名" required minlength="3" style="flex: 1; min-width: 150px;" class="form-input">
+                            <input type="text" id="confirmAdminUsername" placeholder="确认新用户名" required minlength="3" style="flex: 1; min-width: 150px;" class="form-input">
+                            <button type="submit" class="btn-primary">修改用户名</button>
+                        </form>
+                        <p style="margin-top: 8px; font-size: 12px; color: #dc3545;">⚠️ 修改后需要使用新用户名登录</p>
+                    </div>
+                    
+                    <!-- 修改管理员密码 -->
+                    <div style="margin-top: 15px; padding: 15px; background: white; border-radius: 8px;">
+                        <h5 style="margin-bottom: 10px; color: #333;">🔐 修改管理员密码</h5>
+                        <form onsubmit="return changeAdminPassword(event)" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <input type="password" id="currentAdminPassword" placeholder="当前密码" required style="flex: 1; min-width: 150px;" class="form-input">
+                            <input type="password" id="newAdminPassword" placeholder="新密码" required minlength="6" style="flex: 1; min-width: 150px;" class="form-input">
+                            <input type="password" id="confirmAdminPassword" placeholder="确认新密码" required minlength="6" style="flex: 1; min-width: 150px;" class="form-input">
+                            <button type="submit" class="btn-primary">修改密码</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 注册开关 -->
+                <div class="form-group" style="background: #e3f2fd; padding: 20px; border-radius: 8px;">
+                    <h4>🔧 用户注册控制</h4>
+                    <div style="display: flex; align-items: center; gap: 15px; margin-top: 10px;">
+                        <label style="display: flex; align-items: center; cursor: pointer;">
+                            <input type="checkbox" id="allowRegisterCheckbox" onchange="toggleRegister()" style="width: 20px; height: 20px; margin-right: 10px; cursor: pointer;">
+                            <span style="font-size: 16px; font-weight: 500;">允许新用户注册</span>
+                        </label>
+                        <span id="registerStatus" style="padding: 5px 15px; border-radius: 15px; font-size: 12px; font-weight: bold;"></span>
+                    </div>
+                    <p style="margin-top: 10px; font-size: 13px; color: #666;">关闭后,新用户将无法自行注册,只能由管理员创建账户</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 添加/编辑书签模态框 -->
     <div class="modal" id="bookmarkModal">
         <div class="modal-content">
             <h3 id="modalTitle">添加书签</h3>
-            <form onsubmit="saveBookmark(event)">
+            <form onsubmit="return saveBookmark(event)">
                 <div class="form-group">
                     <label class="form-label">标题</label>
                     <input type="text" id="bookmarkTitle" class="form-input" placeholder="请输入书签标题" required>
@@ -770,161 +851,342 @@
         </div>
     </div>
 
-    <!-- 拖拽提示 -->
-    <div class="drag-instruction" id="dragInstruction">
-        🖱️ 拖拽到其他书签重新排序，或拖拽到文件夹标签移动分类
+    <!-- 修改用户密码模态框 -->
+    <div class="modal" id="changePasswordModal">
+        <div class="modal-content">
+            <h3>🔐 修改用户密码</h3>
+            <p style="margin-bottom: 20px; color: #666;">正在修改用户: <strong id="changePasswordUsername"></strong></p>
+            <form onsubmit="return confirmChangeUserPassword(event)">
+                <div class="form-group">
+                    <label class="form-label">新密码</label>
+                    <input type="password" id="newUserPassword" class="form-input" placeholder="请输入新密码" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">确认新密码</label>
+                    <input type="password" id="confirmUserPassword" class="form-input" placeholder="请确认新密码" required minlength="6">
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn-secondary" onclick="hideChangePasswordModal()">取消</button>
+                    <button type="submit" class="btn-primary">确认修改</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <!-- 更新提示横幅 -->
-    <div class="update-banner" id="updateBanner">
-        <button class="close-btn" onclick="hideUpdateBanner()">&times;</button>
-        <strong>🎉 发现新版本！</strong> 有新功能可用，建议刷新页面获取最新版本。
-        <a href="https://github.com/cloud-super111/Bookmark-Manager" target="_blank" style="color: #fff; margin-left: 10px;">查看更新</a>
+    <!-- 修改用户名模态框 -->
+    <div class="modal" id="changeUsernameModal">
+        <div class="modal-content">
+            <h3>✏️ 修改用户名</h3>
+            <p style="margin-bottom: 20px; color: #666;">当前用户名: <strong id="currentUsernameDisplay"></strong></p>
+            <form onsubmit="return confirmChangeUsername(event)">
+                <div class="form-group">
+                    <label class="form-label">新用户名</label>
+                    <input type="text" id="newUsername" class="form-input" placeholder="请输入新用户名" required minlength="3">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">确认新用户名</label>
+                    <input type="text" id="confirmNewUsername" class="form-input" placeholder="请确认新用户名" required minlength="3">
+                </div>
+                <div style="background: #fff3cd; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 13px;">
+                    ⚠️ 注意：修改用户名后，该用户需要使用新用户名登录
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn-secondary" onclick="hideChangeUsernameModal()">取消</button>
+                    <button type="submit" class="btn-primary">确认修改</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>
-        // 配置
-        const CONFIG = {
+        var CONFIG = {
             password: 'admin123',
+            adminUsername: 'admin',
+            adminPassword: 'admin888',
             storageKey: 'bookmarks_data',
+            usersKey: 'users_data',
+            currentUserKey: 'current_user',
             foldersKey: 'folders_data',
-            syncEndpoint: '/api/sync',
-            deviceKey: 'device_id',
+            cloudApiUrlKey: 'cloud_api_url',
             lastSyncKey: 'last_sync_time',
-            versionKey: 'app_version',
-            currentVersion: '2.0.0',
+            currentVersion: '2.2.0',
             githubRepo: 'https://github.com/cloud-super111/Bookmark-Manager'
         };
 
-        let bookmarks = [];
-        let folders = ['工作', '学习', '娱乐', '工具'];
-        let isLoggedIn = false;
-        let editingIndex = -1;
-        let moveBookmarkIndex = -1;
-        let deviceId = '';
-        let syncInterval = null;
-        let pendingSyncItems = new Set();
-        let currentFolder = 'all';
-        let draggedElement = null;
-        let draggedIndex = -1;
+        var bookmarks = [];
+        var folders = ['工作', '学习', '娱乐', '工具'];
+        var users = [];
+        var currentUser = null;
+        var isLoggedIn = false;
+        var isAdmin = false;
+        var editingIndex = -1;
+        var moveBookmarkIndex = -1;
+        var syncInterval = null;
+        var pendingSyncItems = [];
+        var currentFolder = 'all';
+        var draggedElement = null;
+        var draggedIndex = -1;
+        var changePasswordTargetUser = '';
+        var changeUsernameTargetUser = '';
+        var cloudApiUrl = '';
 
-        // 生成设备唯一ID
-        function generateDeviceId() {
-            let id = localStorage.getItem(CONFIG.deviceKey);
-            if (!id) {
-                id = 'device_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
-                localStorage.setItem(CONFIG.deviceKey, id);
-            }
-            return id;
+        // ========== 云端同步功能 ==========
+        
+        function getCloudApiUrl() {
+            var saved = localStorage.getItem(CONFIG.cloudApiUrlKey);
+            return saved || cloudApiUrl;
         }
 
-        // 显示提示消息
-        function showToast(message, type = 'success') {
-            const existingToast = document.querySelector('.toast');
+        function saveCloudConfig() {
+            var url = document.getElementById('cloudApiUrl').value.trim();
+            if (!url) {
+                showToast('请输入 API 地址', 'warning');
+                return;
+            }
+            
+            // 移除末尾的斜杠
+            if (url.endsWith('/')) {
+                url = url.slice(0, -1);
+            }
+            
+            localStorage.setItem(CONFIG.cloudApiUrlKey, url);
+            cloudApiUrl = url;
+            showToast('云端配置已保存', 'success');
+            updateCloudConfigStatus('配置已保存，请测试连接', 'info');
+        }
+
+        function testCloudConnection() {
+            var url = getCloudApiUrl();
+            if (!url) {
+                showToast('请先配置 API 地址', 'warning');
+                return;
+            }
+            
+            updateCloudConfigStatus('正在测试连接...', 'info');
+            
+            fetch(url + '/api/health')
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    if (data.status === 'ok') {
+                        updateCloudConfigStatus('✅ 连接成功！云端服务正常运行', 'success');
+                        showToast('云端连接测试成功', 'success');
+                    } else {
+                        updateCloudConfigStatus('❌ 连接失败：服务响应异常', 'error');
+                        showToast('连接测试失败', 'error');
+                    }
+                })
+                .catch(function(error) {
+                    updateCloudConfigStatus('❌ 连接失败：' + error.message, 'error');
+                    showToast('连接测试失败：' + error.message, 'error');
+                });
+        }
+
+        function updateCloudConfigStatus(message, type) {
+            var statusDiv = document.getElementById('cloudConfigStatus');
+            statusDiv.style.display = 'block';
+            statusDiv.textContent = message;
+            
+            statusDiv.style.background = '#f8f9fa';
+            statusDiv.style.color = '#333';
+            statusDiv.style.border = '1px solid #dee2e6';
+            
+            if (type === 'success') {
+                statusDiv.style.background = '#d4edda';
+                statusDiv.style.color = '#155724';
+                statusDiv.style.border = '1px solid #c3e6cb';
+            } else if (type === 'error') {
+                statusDiv.style.background = '#f8d7da';
+                statusDiv.style.color = '#721c24';
+                statusDiv.style.border = '1px solid #f5c6cb';
+            } else if (type === 'info') {
+                statusDiv.style.background = '#d1ecf1';
+                statusDiv.style.color = '#0c5460';
+                statusDiv.style.border = '1px solid #bee5eb';
+            }
+        }
+
+        function syncToCloud() {
+            var url = getCloudApiUrl();
+            if (!url || !currentUser) {
+                updateSyncStatus('offline', '离线模式');
+                return;
+            }
+            
+            updateSyncStatus('syncing', '同步中...');
+            
+            var syncData = {
+                username: currentUser.username,
+                bookmarks: bookmarks,
+                folders: folders
+            };
+            
+            fetch(url + '/api/sync', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(syncData)
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                if (data.success) {
+                    pendingSyncItems = [];
+                    updateSyncStatus('synced', '已同步');
+                    showToast('数据已同步到云端', 'success');
+                    localStorage.setItem(CONFIG.lastSyncKey, new Date().toISOString());
+                } else {
+                    updateSyncStatus('error', '同步失败');
+                    showToast('同步失败：' + (data.error || '未知错误'), 'error');
+                }
+            })
+            .catch(function(error) {
+                updateSyncStatus('error', '同步失败');
+                showToast('同步失败：' + error.message, 'error');
+                console.error('Sync error:', error);
+            });
+        }
+
+        function pullFromCloud() {
+            var url = getCloudApiUrl();
+            if (!url || !currentUser) {
+                loadBookmarks();
+                return;
+            }
+            
+            updateSyncStatus('syncing', '拉取中...');
+            
+            fetch(url + '/api/sync?username=' + encodeURIComponent(currentUser.username))
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    if (data.success) {
+                        if (data.bookmarks && data.bookmarks.length > 0) {
+                            bookmarks = data.bookmarks;
+                            saveToStorage();
+                        }
+                        if (data.folders && data.folders.length > 0) {
+                            folders = data.folders;
+                            saveFoldersToStorage();
+                        }
+                        updateSyncStatus('synced', '已同步');
+                        renderBookmarks();
+                        updateStats();
+                        updateFolderTabs();
+                        showToast('已从云端拉取数据', 'success');
+                        
+                        if (data.lastSync) {
+                            localStorage.setItem(CONFIG.lastSyncKey, data.lastSync);
+                        }
+                    } else {
+                        loadBookmarks();
+                        updateSyncStatus('synced', '本地模式');
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Pull error:', error);
+                    loadBookmarks();
+                    updateSyncStatus('error', '拉取失败');
+                });
+        }
+
+        function manualSync() {
+            var url = getCloudApiUrl();
+            if (!url) {
+                showToast('请先在管理面板配置云端 API 地址', 'warning');
+                return;
+            }
+            
+            for (var i = 0; i < bookmarks.length; i++) {
+                if (pendingSyncItems.indexOf(i) === -1) {
+                    pendingSyncItems.push(i);
+                }
+            }
+            syncToCloud();
+        }
+
+        // ========== 工具函数 ==========
+        
+        function showToast(message, type) {
+            var existingToast = document.querySelector('.toast');
             if (existingToast) {
-                existingToast.remove();
+                existingToast.parentNode.removeChild(existingToast);
             }
 
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
+            var toast = document.createElement('div');
+            toast.className = 'toast ' + (type || 'success');
             toast.textContent = message;
             document.body.appendChild(toast);
 
-            setTimeout(() => toast.classList.add('show'), 100);
-            setTimeout(() => {
+            setTimeout(function() { toast.classList.add('show'); }, 100);
+            setTimeout(function() {
                 toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
+                setTimeout(function() {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
             }, 3000);
         }
 
-        // 更新实时时钟
         function updateClock() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('zh-CN', { 
-                hour12: false,
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            const dateStr = now.toLocaleDateString('zh-CN', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                weekday: 'long'
-            });
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            
+            if (hours < 10) hours = '0' + hours;
+            if (minutes < 10) minutes = '0' + minutes;
+            if (seconds < 10) seconds = '0' + seconds;
+            
+            var timeStr = hours + ':' + minutes + ':' + seconds;
+            
+            var year = now.getFullYear();
+            var month = now.getMonth() + 1;
+            var day = now.getDate();
+            var weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+            var weekday = weekdays[now.getDay()];
+            
+            var dateStr = year + '年' + month + '月' + day + '日 ' + weekday;
             
             document.getElementById('currentTime').textContent = timeStr;
             document.getElementById('currentDate').textContent = dateStr;
         }
 
-        // 检查版本更新
-        function checkForUpdates() {
-            const lastVersion = localStorage.getItem(CONFIG.versionKey);
-            if (lastVersion && lastVersion !== CONFIG.currentVersion) {
-                showUpdateBanner();
-            }
-            localStorage.setItem(CONFIG.versionKey, CONFIG.currentVersion);
-        }
-
-        // 显示更新横幅
-        function showUpdateBanner() {
-            document.getElementById('updateBanner').classList.add('show');
-        }
-
-        // 隐藏更新横幅
-        function hideUpdateBanner() {
-            document.getElementById('updateBanner').classList.remove('show');
-        }
-
-        // 更新同步状态
         function updateSyncStatus(status, text) {
-            const syncStatus = document.getElementById('syncStatus');
-            const syncText = document.getElementById('syncText');
+            var syncStatus = document.getElementById('syncStatus');
+            var syncText = document.getElementById('syncText');
             
-            syncStatus.className = `sync-status ${status}`;
+            syncStatus.className = 'sync-status ' + status;
             syncText.textContent = text;
 
             if (status === 'synced') {
-                const now = new Date();
-                const timeStr = now.toLocaleTimeString();
+                var now = new Date();
+                var timeStr = now.toLocaleTimeString();
                 document.getElementById('lastSync').textContent = timeStr;
-                localStorage.setItem(CONFIG.lastSyncKey, now.toISOString());
             }
         }
 
-        // 同步数据到云端（模拟）
-        async function syncToCloud() {
-            if (pendingSyncItems.size === 0) return;
-
-            updateSyncStatus('syncing', '同步中...');
-            
-            // 模拟同步延迟
-            setTimeout(() => {
-                pendingSyncItems.clear();
-                updateSyncStatus('synced', '已同步');
-                showToast('数据已同步到云端', 'success');
-                renderBookmarks();
-            }, 1000);
-        }
-
-        // 手动同步
-        function manualSync() {
-            bookmarks.forEach((_, index) => pendingSyncItems.add(index));
-            syncToCloud();
-        }
-
-        // 标记项目为待同步
         function markForSync(index) {
-            pendingSyncItems.add(index);
+            if (pendingSyncItems.indexOf(index) === -1) {
+                pendingSyncItems.push(index);
+            }
             renderBookmarks();
             
-            clearTimeout(window.autoSyncTimeout);
-            window.autoSyncTimeout = setTimeout(() => {
+            if (window.autoSyncTimeout) {
+                clearTimeout(window.autoSyncTimeout);
+            }
+            window.autoSyncTimeout = setTimeout(function() {
                 syncToCloud();
             }, 2000);
         }
 
-        // 拖拽功能增强
+        // ========== 拖放功能 ==========
+        
         function initializeDragAndDrop() {
             document.addEventListener('dragstart', handleDragStart);
             document.addEventListener('dragend', handleDragEnd);
@@ -934,61 +1196,59 @@
             document.addEventListener('dragleave', handleDragLeave);
         }
 
-        function handleDragStart(e) {
-            if (e.target.classList.contains('bookmark-card')) {
-                draggedElement = e.target;
-                draggedIndex = parseInt(e.target.dataset.index);
-                e.target.classList.add('dragging');
-                e.dataTransfer.effectAllowed = 'move';
-                e.dataTransfer.setData('text/plain', draggedIndex);
-                
-                // 显示拖拽提示
-                const instruction = document.getElementById('dragInstruction');
-                if (instruction) {
-                    instruction.classList.add('show');
+        function getClosest(elem, selector) {
+            if (!elem) return null;
+            
+            if (elem.classList && elem.classList.contains(selector.replace('.', ''))) {
+                return elem;
+            }
+            
+            while (elem) {
+                if (elem.classList && elem.classList.contains(selector.replace('.', ''))) {
+                    return elem;
                 }
+                elem = elem.parentElement;
+            }
+            return null;
+        }
+
+        function handleDragStart(e) {
+            var target = e.target || e.srcElement;
+            if (target.classList && target.classList.contains('bookmark-card')) {
+                draggedElement = target;
+                draggedIndex = parseInt(target.getAttribute('data-index'));
+                target.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
             }
         }
 
         function handleDragEnd(e) {
-            if (e.target.classList.contains('bookmark-card')) {
-                e.target.classList.remove('dragging');
-                document.querySelectorAll('.bookmark-card, .folder-tab').forEach(element => {
-                    element.classList.remove('drag-over');
-                });
+            var target = e.target || e.srcElement;
+            if (target.classList && target.classList.contains('bookmark-card')) {
+                target.classList.remove('dragging');
+                var cards = document.querySelectorAll('.bookmark-card, .folder-tab');
+                for (var i = 0; i < cards.length; i++) {
+                    cards[i].classList.remove('drag-over');
+                }
                 draggedElement = null;
                 draggedIndex = -1;
-                
-                // 隐藏拖拽提示
-                const instruction = document.getElementById('dragInstruction');
-                if (instruction) {
-                    instruction.classList.remove('show');
-                }
-                
-                // 清除所有拖拽状态
-                setTimeout(() => {
-                    document.querySelectorAll('.drag-over').forEach(el => {
-                        el.classList.remove('drag-over');
-                    });
-                }, 100);
             }
         }
 
         function handleDragEnter(e) {
             e.preventDefault();
-            const target = e.target.closest('.bookmark-card') || e.target.closest('.folder-tab');
+            var target = getClosest(e.target, '.bookmark-card') || getClosest(e.target, '.folder-tab');
             if (target && target !== draggedElement && draggedElement) {
                 target.classList.add('drag-over');
             }
         }
 
         function handleDragLeave(e) {
-            const target = e.target.closest('.bookmark-card') || e.target.closest('.folder-tab');
+            var target = getClosest(e.target, '.bookmark-card') || getClosest(e.target, '.folder-tab');
             if (target && target !== draggedElement) {
-                // 检查鼠标是否真的离开了元素
-                const rect = target.getBoundingClientRect();
-                const x = e.clientX;
-                const y = e.clientY;
+                var rect = target.getBoundingClientRect();
+                var x = e.clientX;
+                var y = e.clientY;
                 
                 if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
                     target.classList.remove('drag-over');
@@ -999,27 +1259,21 @@
         function handleDragOver(e) {
             e.preventDefault();
             e.dataTransfer.dropEffect = 'move';
-            
-            // 保持拖拽目标高亮
-            const target = e.target.closest('.bookmark-card') || e.target.closest('.folder-tab');
-            if (target && target !== draggedElement && draggedElement) {
-                target.classList.add('drag-over');
-            }
         }
 
         function handleDrop(e) {
             e.preventDefault();
-            const targetCard = e.target.closest('.bookmark-card');
-            const targetFolder = e.target.closest('.folder-tab');
+            var targetCard = getClosest(e.target, '.bookmark-card');
+            var targetFolder = getClosest(e.target, '.folder-tab');
             
             if (draggedIndex === -1 || !draggedElement) return;
             
-            // 拖拽到书签卡片 - 重新排序
             if (targetCard && targetCard !== draggedElement) {
-                const targetIndex = parseInt(targetCard.dataset.index);
+                var targetIndex = parseInt(targetCard.getAttribute('data-index'));
                 
                 if (targetIndex !== draggedIndex) {
-                    const [draggedBookmark] = bookmarks.splice(draggedIndex, 1);
+                    var draggedBookmark = bookmarks[draggedIndex];
+                    bookmarks.splice(draggedIndex, 1);
                     bookmarks.splice(targetIndex, 0, draggedBookmark);
                     
                     saveToStorage();
@@ -1027,12 +1281,9 @@
                     renderBookmarks();
                     showToast('书签顺序已更新', 'success');
                 }
-            }
-            
-            // 拖拽到文件夹标签 - 移动到文件夹
-            else if (targetFolder && draggedElement) {
-                const targetFolderName = targetFolder.dataset.folder;
-                const bookmark = bookmarks[draggedIndex];
+            } else if (targetFolder && draggedElement) {
+                var targetFolderName = targetFolder.getAttribute('data-folder');
+                var bookmark = bookmarks[draggedIndex];
                 
                 if (!bookmark) return;
                 
@@ -1041,15 +1292,14 @@
                     return;
                 }
                 
-                const oldFolder = bookmark.folder || '未分类';
-                const newFolder = targetFolderName || '未分类';
+                var oldFolder = bookmark.folder || '未分类';
+                var newFolder = targetFolderName || '未分类';
                 
                 if (oldFolder === newFolder) {
                     showToast('书签已在此文件夹中', 'info');
                     return;
                 }
                 
-                // 更新书签的文件夹
                 bookmark.folder = targetFolderName;
                 bookmark.updatedAt = new Date().toISOString();
                 
@@ -1058,16 +1308,17 @@
                 renderBookmarks();
                 updateStats();
                 
-                showToast(`书签已移动到 "${newFolder}"`, 'success');
+                showToast('书签已移动到 "' + newFolder + '"', 'success');
             }
             
-            // 清理所有拖拽状态
-            document.querySelectorAll('.bookmark-card, .folder-tab').forEach(element => {
-                element.classList.remove('drag-over');
-            });
+            var allElements = document.querySelectorAll('.bookmark-card, .folder-tab');
+            for (var i = 0; i < allElements.length; i++) {
+                allElements[i].classList.remove('drag-over');
+            }
         }
 
-        // 文件夹管理
+        // ========== 文件夹管理 ==========
+        
         function showFolderModal() {
             updateFolderModal();
             document.getElementById('folderModal').style.display = 'block';
@@ -1078,97 +1329,32 @@
         }
 
         function updateFolderModal() {
-            const container = document.getElementById('existingFolders');
-            container.innerHTML = folders.map(folder => `
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border: 1px solid #e1e5e9; border-radius: 8px; margin-bottom: 10px; background: white;">
-                    <span style="flex: 1;">📁 ${folder}</span>
-                    <div style="display: flex; gap: 5px;">
-                        <input type="text" id="rename-${folder}" value="${folder}" style="display: none; flex: 1; padding: 4px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
-                        <button type="button" class="edit-btn" onclick="startRenameFolder('${folder}')" id="edit-btn-${folder}" style="padding: 4px 8px; font-size: 11px;">重命名</button>
-                        <button type="button" class="btn-primary" onclick="confirmRenameFolder('${folder}')" id="confirm-btn-${folder}" style="display: none; padding: 4px 8px; font-size: 11px;">确认</button>
-                        <button type="button" class="btn-secondary" onclick="cancelRenameFolder('${folder}')" id="cancel-btn-${folder}" style="display: none; padding: 4px 8px; font-size: 11px;">取消</button>
-                        <button type="button" class="delete-btn" onclick="deleteFolder('${folder}')" id="delete-btn-${folder}" style="padding: 4px 8px; font-size: 11px;">删除</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // 文件夹重命名功能
-        function startRenameFolder(oldName) {
-            const input = document.getElementById(`rename-${oldName}`);
-            const editBtn = document.getElementById(`edit-btn-${oldName}`);
-            const confirmBtn = document.getElementById(`confirm-btn-${oldName}`);
-            const cancelBtn = document.getElementById(`cancel-btn-${oldName}`);
-            const deleteBtn = document.getElementById(`delete-btn-${oldName}`);
+            var container = document.getElementById('existingFolders');
+            var html = '';
             
-            input.style.display = 'block';
-            input.select();
-            editBtn.style.display = 'none';
-            confirmBtn.style.display = 'inline-block';
-            cancelBtn.style.display = 'inline-block';
-            deleteBtn.style.display = 'none';
-        }
-
-        function confirmRenameFolder(oldName) {
-            const input = document.getElementById(`rename-${oldName}`);
-            const newName = input.value.trim();
-            
-            if (!newName) {
-                showToast('文件夹名称不能为空', 'warning');
-                return;
+            for (var i = 0; i < folders.length; i++) {
+                var folder = folders[i];
+                html += '<div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border: 1px solid #e1e5e9; border-radius: 8px; margin-bottom: 10px; background: white;">';
+                html += '<span>📁 ' + folder + '</span>';
+                html += '<button type="button" class="delete-btn" onclick="deleteFolder(\'' + folder + '\')" style="padding: 4px 8px; font-size: 11px;">删除</button>';
+                html += '</div>';
             }
             
-            if (newName === oldName) {
-                cancelRenameFolder(oldName);
-                return;
-            }
-            
-            if (folders.includes(newName)) {
-                showToast('文件夹名称已存在', 'warning');
-                return;
-            }
-            
-            // 更新文件夹名称
-            const folderIndex = folders.indexOf(oldName);
-            folders[folderIndex] = newName;
-            
-            // 更新所有书签中的文件夹引用
-            bookmarks.forEach((bookmark, index) => {
-                if (bookmark.folder === oldName) {
-                    bookmark.folder = newName;
-                    markForSync(index);
-                }
-            });
-            
-            // 如果当前显示的是被重命名的文件夹，更新当前文件夹
-            if (currentFolder === oldName) {
-                currentFolder = newName;
-            }
-            
-            saveFoldersToStorage();
-            saveToStorage();
-            updateFolderModal();
-            updateFolderTabs();
-            updateBookmarkFolderOptions();
-            renderBookmarks();
-            
-            showToast(`文件夹已重命名为 "${newName}"`, 'success');
-        }
-
-        function cancelRenameFolder(folderName) {
-            updateFolderModal(); // 重新渲染模态框以取消编辑状态
+            container.innerHTML = html;
         }
 
         function addFolder() {
-            const name = document.getElementById('newFolderName').value.trim();
+            var name = document.getElementById('newFolderName').value.trim();
             if (!name) {
                 showToast('请输入文件夹名称', 'warning');
                 return;
             }
             
-            if (folders.includes(name)) {
-                showToast('文件夹已存在', 'warning');
-                return;
+            for (var i = 0; i < folders.length; i++) {
+                if (folders[i] === name) {
+                    showToast('文件夹已存在', 'warning');
+                    return;
+                }
             }
             
             folders.push(name);
@@ -1177,72 +1363,68 @@
             updateFolderTabs();
             updateBookmarkFolderOptions();
             document.getElementById('newFolderName').value = '';
-            showToast(`文件夹 "${name}" 已添加`, 'success');
+            showToast('文件夹 "' + name + '" 已添加', 'success');
+            
+            markForSync(0);
         }
 
         function deleteFolder(folderName) {
-            if (confirm(`确定要删除文件夹 "${folderName}" 吗？\n此文件夹内的书签将移到未分类。`)) {
-                // 统计要移动的书签数量
-                let movedCount = 0;
+            if (confirm('确定要删除文件夹 "' + folderName + '" 吗？\n此文件夹内的书签将移到未分类。')) {
+                var movedCount = 0;
                 
-                // 将该文件夹内的书签移到根目录（未分类）
-                bookmarks.forEach((bookmark, index) => {
-                    if (bookmark.folder === folderName) {
-                        bookmark.folder = '';
-                        markForSync(index);
+                for (var i = 0; i < bookmarks.length; i++) {
+                    if (bookmarks[i].folder === folderName) {
+                        bookmarks[i].folder = '';
+                        markForSync(i);
                         movedCount++;
                     }
-                });
-                
-                // 删除文件夹
-                folders = folders.filter(f => f !== folderName);
-                saveFoldersToStorage();
-                
-                // 更新界面
-                if (hideFolderModal) {
-                    updateFolderModal();
                 }
+                
+                var newFolders = [];
+                for (var i = 0; i < folders.length; i++) {
+                    if (folders[i] !== folderName) {
+                        newFolders.push(folders[i]);
+                    }
+                }
+                folders = newFolders;
+                
+                saveFoldersToStorage();
+                updateFolderModal();
                 updateFolderTabs();
                 updateBookmarkFolderOptions();
                 
-                // 如果当前显示的是被删除的文件夹，切换到全部
                 if (currentFolder === folderName) {
                     currentFolder = 'all';
-                    renderBookmarks();
-                } else {
-                    renderBookmarks();
                 }
+                renderBookmarks();
                 
-                // 保存数据并更新统计
                 saveToStorage();
                 updateStats();
                 
-                const message = movedCount > 0 ? 
-                    `文件夹 "${folderName}" 已删除，${movedCount} 个书签已移到未分类` : 
-                    `文件夹 "${folderName}" 已删除`;
+                var message = movedCount > 0 ? 
+                    '文件夹 "' + folderName + '" 已删除，' + movedCount + ' 个书签已移到未分类' : 
+                    '文件夹 "' + folderName + '" 已删除';
                 showToast(message, 'success');
             }
         }
 
         function updateFolderTabs() {
-            const container = document.getElementById('foldersContainer');
-            container.innerHTML = `
-                <div class="folder-tab ${currentFolder === 'all' ? 'active' : ''}" data-folder="all" onclick="switchFolder('all')">📚 全部</div>
-                <div class="folder-tab ${currentFolder === '' ? 'active' : ''}" data-folder="" onclick="switchFolder('')">📄 未分类</div>
-                ${folders.map(folder => `
-                    <div class="folder-tab ${currentFolder === folder ? 'active' : ''}" data-folder="${folder}" onclick="switchFolder('${folder}')">
-                        📁 ${folder}
-                        <button class="folder-delete" onclick="event.stopPropagation(); deleteFolderFromTab('${folder}')" title="删除文件夹">×</button>
-                    </div>
-                `).join('')}
-            `;
-        }
-
-        // 从文件夹标签删除文件夹
-        function deleteFolderFromTab(folderName) {
-            if (confirm(`确定要删除文件夹 "${folderName}" 吗？\n此文件夹内的书签将移到未分类。`)) {
-                deleteFolder(folderName);
+            var container = document.getElementById('foldersContainer');
+            var html = '';
+            
+            html += '<div class="folder-tab ' + (currentFolder === 'all' ? 'active' : '') + '" data-folder="all" onclick="switchFolder(\'all\')">📚 全部</div>';
+            html += '<div class="folder-tab ' + (currentFolder === '' ? 'active' : '') + '" data-folder="" onclick="switchFolder(\'\')">📄 未分类</div>';
+            
+            for (var i = 0; i < folders.length; i++) {
+                var folder = folders[i];
+                var isActive = currentFolder === folder;
+                html += '<div class="folder-tab ' + (isActive ? 'active' : '') + '" data-folder="' + folder + '" onclick="switchFolder(\'' + folder + '\')">';
+                html += '📁 ' + folder;
+                html += '<button class="folder-delete" onclick="event.stopPropagation(); deleteFolderFromTab(\'' + folder + '\')" title="删除文件夹">×</button>';
+                html += '</div>';
             }
+            
+            container.innerHTML = html;
         }
 
         function switchFolder(folder) {
@@ -1251,24 +1433,27 @@
             renderBookmarks();
         }
 
-        function updateBookmarkFolderOptions() {
-            const selects = ['bookmarkFolder', 'moveToFolder'];
-            selects.forEach(selectId => {
-                const select = document.getElementById(selectId);
-                if (select) {
-                    const currentValue = select.value;
-                    select.innerHTML = `
-                        <option value="">根目录</option>
-                        ${folders.map(folder => `
-                            <option value="${folder}">${folder}</option>
-                        `).join('')}
-                    `;
-                    select.value = currentValue;
-                }
-            });
+        function deleteFolderFromTab(folderName) {
+            deleteFolder(folderName);
         }
 
-        // 移动书签到文件夹
+        function updateBookmarkFolderOptions() {
+            var selects = ['bookmarkFolder', 'moveToFolder'];
+            for (var s = 0; s < selects.length; s++) {
+                var selectId = selects[s];
+                var select = document.getElementById(selectId);
+                if (select) {
+                    var currentValue = select.value;
+                    var html = '<option value="">根目录</option>';
+                    for (var i = 0; i < folders.length; i++) {
+                        html += '<option value="' + folders[i] + '">' + folders[i] + '</option>';
+                    }
+                    select.innerHTML = html;
+                    select.value = currentValue;
+                }
+            }
+        }
+
         function showMoveModal(index) {
             moveBookmarkIndex = index;
             updateBookmarkFolderOptions();
@@ -1283,7 +1468,7 @@
         function confirmMove() {
             if (moveBookmarkIndex === -1) return;
             
-            const targetFolder = document.getElementById('moveToFolder').value;
+            var targetFolder = document.getElementById('moveToFolder').value;
             bookmarks[moveBookmarkIndex].folder = targetFolder;
             
             saveToStorage();
@@ -1291,190 +1476,784 @@
             renderBookmarks();
             hideMoveModal();
             
-            const folderName = targetFolder || '根目录';
-            showToast(`书签已移动到 "${folderName}"`, 'success');
+            var folderName = targetFolder || '根目录';
+            showToast('书签已移动到 "' + folderName + '"', 'success');
         }
 
-        // 保存文件夹到本地存储
         function saveFoldersToStorage() {
-            localStorage.setItem(CONFIG.foldersKey, JSON.stringify(folders));
+            if (!currentUser) return;
+            localStorage.setItem(getUserFoldersKey(currentUser.username), JSON.stringify(folders));
         }
 
-        // 加载文件夹
         function loadFolders() {
-            const savedFolders = localStorage.getItem(CONFIG.foldersKey);
+            if (!currentUser) return;
+            
+            var savedFolders = localStorage.getItem(getUserFoldersKey(currentUser.username));
             if (savedFolders) {
                 folders = JSON.parse(savedFolders);
+            } else {
+                var systemConfig = getSystemConfig();
+                var defaultFolders = systemConfig.defaultFolders.split(',');
+                folders = [];
+                for (var i = 0; i < defaultFolders.length; i++) {
+                    folders.push(defaultFolders[i].trim());
+                }
+                saveFoldersToStorage();
             }
             updateFolderTabs();
             updateBookmarkFolderOptions();
         }
 
-        // 初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            deviceId = generateDeviceId();
-            document.getElementById('deviceId').textContent = deviceId.substr(-8).toUpperCase();
-            
-            checkLogin();
-            loadBookmarks();
-            loadFolders();
-            initializeDragAndDrop();
-            checkForUpdates();
-            
-            // 启动实时时钟
-            updateClock();
-            setInterval(updateClock, 1000);
-            
-            // 监听网络状态
-            window.addEventListener('online', () => {
-                updateSyncStatus('synced', '已连接');
-            });
-            
-            window.addEventListener('offline', () => {
-                updateSyncStatus('offline', '离线模式');
-            });
-            
-            // 设置自动同步间隔
-            if (navigator.onLine) {
-                syncInterval = setInterval(() => {
-                    if (pendingSyncItems.size > 0) {
-                        syncToCloud();
-                    }
-                }, 30000);
-                
-                updateSyncStatus('synced', '已连接');
+        // ========== 用户管理 ==========
+        
+        function initializeUsers() {
+            var savedUsers = localStorage.getItem(CONFIG.usersKey);
+            if (savedUsers) {
+                users = JSON.parse(savedUsers);
             } else {
-                updateSyncStatus('offline', '离线模式');
+                users = [{
+                    username: CONFIG.adminUsername,
+                    password: CONFIG.adminPassword,
+                    displayName: '系统管理员',
+                    role: 'admin',
+                    lastLogin: null,
+                    bookmarkCount: 0,
+                    isActive: true
+                }];
+                saveUsersToStorage();
             }
-        });
-
-        // 检查登录状态
-        function checkLogin() {
-            const loginStatus = localStorage.getItem('bookmark_login');
-            if (loginStatus === 'true') {
-                isLoggedIn = true;
-                showMainContent();
+            
+            cloudApiUrl = getCloudApiUrl();
+            
+            var savedCurrentUser = localStorage.getItem(CONFIG.currentUserKey);
+            if (savedCurrentUser) {
+                currentUser = JSON.parse(savedCurrentUser);
+                var foundUser = null;
+                for (var i = 0; i < users.length; i++) {
+                    if (users[i].username === currentUser.username) {
+                        foundUser = users[i];
+                        break;
+                    }
+                }
+                if (foundUser && foundUser.isActive) {
+                    isLoggedIn = true;
+                    isAdmin = foundUser.role === 'admin';
+                    showMainContent();
+                } else {
+                    localStorage.removeItem(CONFIG.currentUserKey);
+                }
             }
         }
 
-        // 登录
+        function saveUsersToStorage() {
+            localStorage.setItem(CONFIG.usersKey, JSON.stringify(users));
+        }
+
+        function saveCurrentUser(user) {
+            currentUser = user;
+            localStorage.setItem(CONFIG.currentUserKey, JSON.stringify(user));
+        }
+
+        function showLoginForm() {
+            document.getElementById('userLogin').style.display = 'block';
+            document.getElementById('userRegister').style.display = 'none';
+        }
+
+        function showRegisterForm() {
+            document.getElementById('userLogin').style.display = 'none';
+            document.getElementById('userRegister').style.display = 'block';
+        }
+
         function login(event) {
             event.preventDefault();
-            const password = document.getElementById('password').value;
+            var username = document.getElementById('username').value.trim();
+            var password = document.getElementById('password').value;
             
-            if (password === CONFIG.password) {
-                isLoggedIn = true;
-                localStorage.setItem('bookmark_login', 'true');
-                showMainContent();
-            } else {
-                showToast('密码错误！', 'error');
-                document.getElementById('password').value = '';
+            var user = null;
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].username === username) {
+                    user = users[i];
+                    break;
+                }
             }
+            
+            if (!user) {
+                showToast('用户名不存在', 'error');
+                return false;
+            }
+            
+            if (user.password !== password) {
+                showToast('密码错误', 'error');
+                return false;
+            }
+            
+            if (!user.isActive) {
+                showToast('账户已被禁用', 'error');
+                return false;
+            }
+            
+            user.lastLogin = new Date().toISOString();
+            isLoggedIn = true;
+            isAdmin = user.role === 'admin';
+            saveCurrentUser(user);
+            saveUsersToStorage();
+            showMainContent();
+            showToast('欢迎回来，' + user.displayName + '！', 'success');
+            return false;
         }
 
-        // 显示主要内容
-        function showMainContent() {
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'block';
-            loadBookmarks();
-            updateStats();
+        function register(event) {
+            event.preventDefault();
+            var username = document.getElementById('regUsername').value.trim();
+            var password = document.getElementById('regPassword').value;
+            var confirmPassword = document.getElementById('regConfirmPassword').value;
             
-            const lastSync = localStorage.getItem(CONFIG.lastSyncKey);
-            if (lastSync) {
-                const syncDate = new Date(lastSync);
-                document.getElementById('lastSync').textContent = syncDate.toLocaleTimeString();
+            if (password !== confirmPassword) {
+                showToast('两次输入的密码不一致', 'warning');
+                return false;
             }
+            
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].username === username) {
+                    showToast('用户名已存在', 'warning');
+                    return false;
+                }
+            }
+            
+            var systemConfig = getSystemConfig();
+            if (!systemConfig.allowRegister) {
+                showToast('系统暂不允许用户注册', 'error');
+                return false;
+            }
+            
+            var newUser = {
+                username: username,
+                password: password,
+                displayName: username,
+                role: 'user',
+                lastLogin: new Date().toISOString(),
+                bookmarkCount: 0,
+                isActive: true
+            };
+            
+            users.push(newUser);
+            saveUsersToStorage();
+            
+            isLoggedIn = true;
+            isAdmin = false;
+            saveCurrentUser(newUser);
+            
+            var defaultFolders = systemConfig.defaultFolders.split(',');
+            folders = [];
+            for (var i = 0; i < defaultFolders.length; i++) {
+                folders.push(defaultFolders[i].trim());
+            }
+            saveUserFolders(username, folders);
+            
+            showMainContent();
+            showToast('注册成功，欢迎 ' + username + '！', 'success');
+            
+            document.getElementById('regUsername').value = '';
+            document.getElementById('regPassword').value = '';
+            document.getElementById('regConfirmPassword').value = '';
+            return false;
         }
 
-        // 退出登录
         function logout() {
-            isLoggedIn = false;
-            localStorage.removeItem('bookmark_login');
-            document.getElementById('loginForm').style.display = 'block';
-            document.getElementById('mainContent').style.display = 'none';
-            document.getElementById('password').value = '';
-            
-            if (syncInterval) {
-                clearInterval(syncInterval);
-                syncInterval = null;
+            if (confirm('确定要退出登录吗？')) {
+                isLoggedIn = false;
+                isAdmin = false;
+                currentUser = null;
+                localStorage.removeItem(CONFIG.currentUserKey);
+                
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('mainContent').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'none';
+                
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                
+                showLoginForm();
+                
+                if (syncInterval) {
+                    clearInterval(syncInterval);
+                    syncInterval = null;
+                }
+                
+                showToast('已退出登录', 'success');
             }
         }
 
-        // 加载书签
+        // ========== 管理员功能 ==========
+        
+        function showAdminPanel() {
+            if (!isAdmin) {
+                showToast('没有管理员权限', 'error');
+                return;
+            }
+            
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            updateAdminPanel();
+        }
+
+        function backToMain() {
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+        }
+
+        function updateAdminPanel() {
+            updateUsersList();
+            updateSystemStats();
+            updateRegisterStatus();
+            updateAdminAccountInfo();
+            
+            var apiUrlInput = document.getElementById('cloudApiUrl');
+            if (apiUrlInput) {
+                apiUrlInput.value = getCloudApiUrl();
+            }
+        }
+
+        function updateAdminAccountInfo() {
+            var currentUsernameInput = document.getElementById('currentAdminUsernameInput');
+            if (currentUsernameInput && currentUser) {
+                currentUsernameInput.value = currentUser.username;
+            }
+        }
+
+        function changeAdminUsername(event) {
+            event.preventDefault();
+            
+            var newUsername = document.getElementById('newAdminUsername').value.trim();
+            var confirmUsername = document.getElementById('confirmAdminUsername').value.trim();
+            
+            if (newUsername.length < 3) {
+                showToast('用户名长度至少3位', 'warning');
+                return false;
+            }
+            
+            if (newUsername !== confirmUsername) {
+                showToast('两次输入的用户名不一致', 'warning');
+                return false;
+            }
+            
+            if (newUsername === currentUser.username) {
+                showToast('新用户名与当前用户名相同', 'warning');
+                return false;
+            }
+            
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].username === newUsername) {
+                    showToast('用户名已存在', 'warning');
+                    return false;
+                }
+            }
+            
+            if (!confirm('确定要修改管理员用户名吗？\n修改后需要使用新用户名 "' + newUsername + '" 登录！')) {
+                return false;
+            }
+            
+            var oldUsername = currentUser.username;
+            var oldStorageKey = getUserStorageKey(oldUsername);
+            var oldFoldersKey = getUserFoldersKey(oldUsername);
+            
+            var bookmarksData = localStorage.getItem(oldStorageKey);
+            var foldersData = localStorage.getItem(oldFoldersKey);
+            
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].username === oldUsername) {
+                    users[i].username = newUsername;
+                    users[i].displayName = newUsername;
+                    break;
+                }
+            }
+            
+            currentUser.username = newUsername;
+            currentUser.displayName = newUsername;
+            
+            if (bookmarksData) {
+                localStorage.setItem(getUserStorageKey(newUsername), bookmarksData);
+                localStorage.removeItem(oldStorageKey);
+            }
+            
+            if (foldersData) {
+                localStorage.setItem(getUserFoldersKey(newUsername), foldersData);
+                localStorage.removeItem(oldFoldersKey);
+            }
+            
+            CONFIG.adminUsername = newUsername;
+            
+            saveCurrentUser(currentUser);
+            saveUsersToStorage();
+            
+            document.getElementById('newAdminUsername').value = '';
+            document.getElementById('confirmAdminUsername').value = '';
+            
+            updateAdminAccountInfo();
+            
+            showToast('管理员用户名已修改为 "' + newUsername + '"', 'success');
+            
+            setTimeout(function() {
+                if (confirm('用户名已修改成功！\n是否现在退出重新登录？')) {
+                    logout();
+                }
+            }, 1000);
+            
+            return false;
+        }
+
+        function changeAdminPassword(event) {
+            event.preventDefault();
+            
+            var currentPassword = document.getElementById('currentAdminPassword').value;
+            var newPassword = document.getElementById('newAdminPassword').value;
+            var confirmPassword = document.getElementById('confirmAdminPassword').value;
+            
+            if (currentPassword !== currentUser.password) {
+                showToast('当前密码错误', 'error');
+                return false;
+            }
+            
+            if (newPassword.length < 6) {
+                showToast('新密码长度至少6位', 'warning');
+                return false;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showToast('两次输入的密码不一致', 'warning');
+                return false;
+            }
+            
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].username === currentUser.username) {
+                    users[i].password = newPassword;
+                    break;
+                }
+            }
+            
+            currentUser.password = newPassword;
+            saveCurrentUser(currentUser);
+            saveUsersToStorage();
+            
+            document.getElementById('currentAdminPassword').value = '';
+            document.getElementById('newAdminPassword').value = '';
+            document.getElementById('confirmAdminPassword').value = '';
+            
+            showToast('管理员密码修改成功', 'success');
+            return false;
+        }
+
+        function updateRegisterStatus() {
+            var systemConfig = getSystemConfig();
+            var checkbox = document.getElementById('allowRegisterCheckbox');
+            var statusSpan = document.getElementById('registerStatus');
+            
+            checkbox.checked = systemConfig.allowRegister;
+            
+            if (systemConfig.allowRegister) {
+                statusSpan.textContent = '已开启';
+                statusSpan.style.background = '#d4edda';
+                statusSpan.style.color = '#155724';
+            } else {
+                statusSpan.textContent = '已关闭';
+                statusSpan.style.background = '#f8d7da';
+                statusSpan.style.color = '#721c24';
+            }
+        }
+
+        function toggleRegister() {
+            var systemConfig = getSystemConfig();
+            var checkbox = document.getElementById('allowRegisterCheckbox');
+            systemConfig.allowRegister = checkbox.checked;
+            saveSystemConfig(systemConfig);
+            updateRegisterStatus();
+            
+            var status = checkbox.checked ? '开启' : '关闭';
+            showToast('用户注册功能已' + status, 'success');
+        }
+
+        function resetUserPasswordModal(username) {
+            changePasswordTargetUser = username;
+            document.getElementById('changePasswordUsername').textContent = username;
+            document.getElementById('newUserPassword').value = '';
+            document.getElementById('confirmUserPassword').value = '';
+            document.getElementById('changePasswordModal').style.display = 'block';
+        }
+
+        function hideChangePasswordModal() {
+            document.getElementById('changePasswordModal').style.display = 'none';
+            changePasswordTargetUser = '';
+        }
+
+        function confirmChangeUserPassword(event) {
+            event.preventDefault();
+            
+            var newPassword = document.getElementById('newUserPassword').value;
+            var confirmPassword = document.getElementById('confirmUserPassword').value;
+            
+            if (newPassword.length < 6) {
+                showToast('密码长度至少6位', 'warning');
+                return false;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showToast('两次输入的密码不一致', 'warning');
+                return false;
+            }
+            
+            var user = null;
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].username === changePasswordTargetUser) {
+                    user = users[i];
+                    break;
+                }
+            }
+            
+            if (user) {
+                user.password = newPassword;
+                saveUsersToStorage();
+                hideChangePasswordModal();
+                showToast('用户 ' + changePasswordTargetUser + ' 的密码已修改', 'success');
+            }
+            
+            return false;
+        }
+
+        function changeUsernameModal(username) {
+            changeUsernameTargetUser = username;
+            document.getElementById('currentUsernameDisplay').textContent = username;
+            document.getElementById('newUsername').value = '';
+            document.getElementById('confirmNewUsername').value = '';
+            document.getElementById('changeUsernameModal').style.display = 'block';
+        }
+
+        function hideChangeUsernameModal() {
+            document.getElementById('changeUsernameModal').style.display = 'none';
+            changeUsernameTargetUser = '';
+        }
+
+        function confirmChangeUsername(event) {
+            event.preventDefault();
+            
+            var newUsername = document.getElementById('newUsername').value.trim();
+            var confirmUsername = document.getElementById('confirmNewUsername').value.trim();
+            
+            if (newUsername.length < 3) {
+                showToast('用户名长度至少3位', 'warning');
+                return false;
+            }
+            
+            if (newUsername !== confirmUsername) {
+                showToast('两次输入的用户名不一致', 'warning');
+                return false;
+            }
+            
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].username === newUsername) {
+                    showToast('用户名已存在', 'warning');
+                    return false;
+                }
+            }
+            
+            var oldUsername = changeUsernameTargetUser;
+            var user = null;
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].username === oldUsername) {
+                    user = users[i];
+                    break;
+                }
+            }
+            
+            if (user) {
+                var oldStorageKey = getUserStorageKey(oldUsername);
+                var oldFoldersKey = getUserFoldersKey(oldUsername);
+                
+                var bookmarksData = localStorage.getItem(oldStorageKey);
+                var foldersData = localStorage.getItem(oldFoldersKey);
+                
+                user.username = newUsername;
+                user.displayName = newUsername;
+                
+                if (bookmarksData) {
+                    localStorage.setItem(getUserStorageKey(newUsername), bookmarksData);
+                    localStorage.removeItem(oldStorageKey);
+                }
+                
+                if (foldersData) {
+                    localStorage.setItem(getUserFoldersKey(newUsername), foldersData);
+                    localStorage.removeItem(oldFoldersKey);
+                }
+                
+                saveUsersToStorage();
+                hideChangeUsernameModal();
+                updateAdminPanel();
+                showToast('用户名已从 "' + oldUsername + '" 修改为 "' + newUsername + '"', 'success');
+            }
+            
+            return false;
+        }
+
+        function updateUsersList() {
+            var container = document.getElementById('usersList');
+            var html = '';
+            
+            for (var i = 0; i < users.length; i++) {
+                var user = users[i];
+                var roleLabel = user.role === 'admin' ? 
+                    '<span style="background: #dc3545; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px;">管理员</span>' : 
+                    '<span style="background: #28a745; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px;">用户</span>';
+                
+                var statusLabel = !user.isActive ? 
+                    '<span style="background: #6c757d; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px;">已禁用</span>' : '';
+                
+                var actionButtons = '';
+                if (user.username !== CONFIG.adminUsername) {
+                    var statusAction = user.isActive ? '禁用' : '启用';
+                    actionButtons = '<div style="display: flex; gap: 5px; flex-wrap: wrap;">';
+                    actionButtons += '<button class="edit-btn" onclick="toggleUserStatus(\'' + user.username + '\')" style="font-size: 11px;">' + statusAction + '</button>';
+                    actionButtons += '<button class="move-btn" onclick="changeUsernameModal(\'' + user.username + '\')" style="font-size: 11px; background: #17a2b8;">改用户名</button>';
+                    actionButtons += '<button class="move-btn" onclick="resetUserPasswordModal(\'' + user.username + '\')" style="font-size: 11px;">改密码</button>';
+                    actionButtons += '<button class="delete-btn" onclick="deleteUser(\'' + user.username + '\')" style="font-size: 11px;">删除</button>';
+                    actionButtons += '</div>';
+                } else {
+                    actionButtons = '<div style="font-size: 11px; color: #999;">主管理员</div>';
+                }
+                
+                html += '<div class="user-list-item">';
+                html += '<div style="flex: 1;">';
+                html += '<div style="font-weight: bold; color: #333;">' + user.username + ' ' + roleLabel + ' ' + statusLabel + '</div>';
+                html += '<div style="font-size: 12px; color: #666;">用户名: ' + user.username + '</div>';
+                html += '</div>';
+                html += actionButtons;
+                html += '</div>';
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function updateSystemStats() {
+            var totalUsers = users.length;
+            var activeUsers = 0;
+            var totalBookmarksAll = 0;
+            
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].isActive) activeUsers++;
+                var userBookmarks = getUserBookmarks(users[i].username);
+                totalBookmarksAll += userBookmarks.length;
+            }
+            
+            document.getElementById('totalUsers').textContent = totalUsers;
+            document.getElementById('activeUsers').textContent = activeUsers;
+            document.getElementById('totalBookmarksAll').textContent = totalBookmarksAll;
+        }
+
+        function adminAddUser(event) {
+            event.preventDefault();
+            var username = document.getElementById('adminUsername').value.trim();
+            var password = document.getElementById('adminPassword').value;
+            
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].username === username) {
+                    showToast('用户名已存在', 'warning');
+                    return false;
+                }
+            }
+            
+            var newUser = {
+                username: username,
+                password: password,
+                displayName: username,
+                role: 'user',
+                lastLogin: null,
+                bookmarkCount: 0,
+                isActive: true
+            };
+            
+            users.push(newUser);
+            saveUsersToStorage();
+            updateAdminPanel();
+            
+            document.getElementById('adminUsername').value = '';
+            document.getElementById('adminPassword').value = '';
+            
+            showToast('用户 ' + username + ' 创建成功', 'success');
+            return false;
+        }
+
+        function toggleUserStatus(username) {
+            var user = null;
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].username === username) {
+                    user = users[i];
+                    break;
+                }
+            }
+            if (!user) return;
+            
+            user.isActive = !user.isActive;
+            saveUsersToStorage();
+            updateAdminPanel();
+            
+            var action = user.isActive ? '启用' : '禁用';
+            showToast('用户 ' + user.displayName + ' 已' + action, 'success');
+        }
+
+        function deleteUser(username) {
+            if (confirm('确定要删除用户 "' + username + '" 吗？\n删除后该用户的所有数据将无法恢复！')) {
+                localStorage.removeItem(CONFIG.storageKey + '_' + username);
+                localStorage.removeItem(CONFIG.foldersKey + '_' + username);
+                
+                var newUsers = [];
+                for (var i = 0; i < users.length; i++) {
+                    if (users[i].username !== username) {
+                        newUsers.push(users[i]);
+                    }
+                }
+                users = newUsers;
+                
+                saveUsersToStorage();
+                updateAdminPanel();
+                
+                showToast('用户 ' + username + ' 已删除', 'success');
+            }
+        }
+
+        function getSystemConfig() {
+            var savedConfig = localStorage.getItem('system_config');
+            if (savedConfig) {
+                return JSON.parse(savedConfig);
+            }
+            
+            return {
+                syncInterval: 30,
+                maxBookmarks: 1000,
+                defaultFolders: '工作,学习,娱乐,工具',
+                allowRegister: true
+            };
+        }
+
+        function saveSystemConfig(config) {
+            localStorage.setItem('system_config', JSON.stringify(config));
+        }
+
+        function getUserStorageKey(username) {
+            return CONFIG.storageKey + '_' + username;
+        }
+
+        function getUserFoldersKey(username) {
+            return CONFIG.foldersKey + '_' + username;
+        }
+
+        function getUserBookmarks(username) {
+            var savedBookmarks = localStorage.getItem(getUserStorageKey(username));
+            return savedBookmarks ? JSON.parse(savedBookmarks) : [];
+        }
+
+        function getUserFolders(username) {
+            var savedFolders = localStorage.getItem(getUserFoldersKey(username));
+            return savedFolders ? JSON.parse(savedFolders) : ['工作', '学习', '娱乐', '工具'];
+        }
+
+        function saveUserBookmarks(username, data) {
+            localStorage.setItem(getUserStorageKey(username), JSON.stringify(data));
+        }
+
+        function saveUserFolders(username, data) {
+            localStorage.setItem(getUserFoldersKey(username), JSON.stringify(data));
+        }
+
+        // ========== 书签管理 ==========
+        
         function loadBookmarks() {
-            const savedBookmarks = localStorage.getItem(CONFIG.storageKey);
+            if (!currentUser) return;
+            
+            var savedBookmarks = localStorage.getItem(getUserStorageKey(currentUser.username));
             if (savedBookmarks) {
                 bookmarks = JSON.parse(savedBookmarks);
-                // 确保每个书签都有folder属性
-                bookmarks.forEach(bookmark => {
-                    if (bookmark.folder === undefined) {
-                        bookmark.folder = '';
+                for (var i = 0; i < bookmarks.length; i++) {
+                    if (!bookmarks[i].folder) {
+                        bookmarks[i].folder = '';
                     }
-                });
+                }
+            } else {
+                bookmarks = [];
             }
             renderBookmarks();
             updateStats();
         }
 
-        // 保存书签到本地存储
         function saveToStorage() {
-            localStorage.setItem(CONFIG.storageKey, JSON.stringify(bookmarks));
+            if (!currentUser) return;
+            localStorage.setItem(getUserStorageKey(currentUser.username), JSON.stringify(bookmarks));
+            
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].username === currentUser.username) {
+                    users[i].bookmarkCount = bookmarks.length;
+                    saveUsersToStorage();
+                    break;
+                }
+            }
         }
 
-        // 渲染书签
-        function renderBookmarks(filteredBookmarks = null) {
-            const container = document.getElementById('bookmarksContainer');
-            let bookmarksToRender = filteredBookmarks || bookmarks;
+        function renderBookmarks(filteredBookmarks) {
+            var container = document.getElementById('bookmarksContainer');
+            var bookmarksToRender = filteredBookmarks || bookmarks;
             
-            // 根据当前文件夹过滤
             if (currentFolder !== 'all' && !filteredBookmarks) {
-                bookmarksToRender = bookmarks.filter(bookmark => 
-                    bookmark.folder === currentFolder
-                );
+                var temp = [];
+                for (var i = 0; i < bookmarks.length; i++) {
+                    if (bookmarks[i].folder === currentFolder) {
+                        temp.push(bookmarks[i]);
+                    }
+                }
+                bookmarksToRender = temp;
             }
             
             if (bookmarksToRender.length === 0) {
-                const emptyMessage = currentFolder === 'all' ? 
+                var emptyMessage = currentFolder === 'all' ? 
                     '还没有书签' : 
-                    filteredBookmarks ? '没有找到匹配的书签' : `"${currentFolder || '未分类'}"文件夹是空的`;
+                    filteredBookmarks ? '没有找到匹配的书签' : '"' + (currentFolder || '未分类') + '"文件夹是空的';
                     
-                container.innerHTML = `
-                    <div class="no-bookmarks">
-                        <h3>📚 ${emptyMessage}</h3>
-                        <p>${filteredBookmarks ? '试试其他关键词' : '点击上方的"添加书签"按钮开始收藏您喜欢的网站吧！'}</p>
-                    </div>
-                `;
+                container.innerHTML = '<div class="no-bookmarks">' +
+                    '<h3>📚 ' + emptyMessage + '</h3>' +
+                    '<p>' + (filteredBookmarks ? '试试其他关键词' : '点击上方的"添加书签"按钮开始收藏您喜欢的网站吧！') + '</p>' +
+                '</div>';
                 return;
             }
 
-            container.innerHTML = bookmarksToRender.map((bookmark, index) => {
-                const originalIndex = bookmark.originalIndex !== undefined ? bookmark.originalIndex : 
-                    bookmarks.findIndex(b => b.id === bookmark.id || 
-                    (b.url === bookmark.url && b.title === bookmark.title));
-                const isPending = pendingSyncItems.has(originalIndex);
+            var html = '';
+            for (var i = 0; i < bookmarksToRender.length; i++) {
+                var bookmark = bookmarksToRender[i];
+                var originalIndex = bookmark.originalIndex !== undefined ? bookmark.originalIndex : i;
                 
-                return `
-                    <div class="bookmark-card ${isPending ? 'pending-sync' : ''}" 
-                         draggable="true" 
-                         data-index="${originalIndex}">
-                        <div class="bookmark-title">${bookmark.title}</div>
-                        <a href="${bookmark.url}" target="_blank" class="bookmark-url">${bookmark.url}</a>
-                        ${bookmark.folder ? `<div style="color: #666; font-size: 12px; margin-bottom: 8px;">📁 ${bookmark.folder}</div>` : ''}
-                        ${bookmark.description ? `<div class="bookmark-description">${bookmark.description}</div>` : ''}
-                        <div class="bookmark-tags">
-                            ${bookmark.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                        </div>
-                        <div class="bookmark-actions">
-                            <button class="edit-btn" onclick="editBookmark(${originalIndex})">编辑</button>
-                            <button class="move-btn" onclick="showMoveModal(${originalIndex})">移动</button>
-                            <button class="delete-btn" onclick="deleteBookmark(${originalIndex})">删除</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+                var tagsHtml = '';
+                if (bookmark.tags) {
+                    for (var t = 0; t < bookmark.tags.length; t++) {
+                        tagsHtml += '<span class="tag">' + bookmark.tags[t] + '</span>';
+                    }
+                }
+                
+                html += '<div class="bookmark-card" draggable="true" data-index="' + originalIndex + '">';
+                html += '<div class="bookmark-title">' + bookmark.title + '</div>';
+                html += '<a href="' + bookmark.url + '" target="_blank" class="bookmark-url">' + bookmark.url + '</a>';
+                if (bookmark.folder) {
+                    html += '<div style="color: #666; font-size: 12px; margin-bottom: 8px;">📁 ' + bookmark.folder + '</div>';
+                }
+                if (bookmark.description) {
+                    html += '<div class="bookmark-description">' + bookmark.description + '</div>';
+                }
+                html += '<div class="bookmark-tags">' + tagsHtml + '</div>';
+                html += '<div class="bookmark-actions">';
+                html += '<button class="edit-btn" onclick="editBookmark(' + originalIndex + ')">编辑</button>';
+                html += '<button class="move-btn" onclick="showMoveModal(' + originalIndex + ')">移动</button>';
+                html += '<button class="delete-btn" onclick="deleteBookmark(' + originalIndex + ')">删除</button>';
+                html += '</div>';
+                html += '</div>';
+            }
+            
+            container.innerHTML = html;
         }
 
-        // 显示添加模态框
         function showAddModal() {
             editingIndex = -1;
             document.getElementById('modalTitle').textContent = '添加书签';
@@ -1487,21 +2266,19 @@
             document.getElementById('bookmarkModal').style.display = 'block';
         }
 
-        // 编辑书签
         function editBookmark(index) {
             editingIndex = index;
-            const bookmark = bookmarks[index];
+            var bookmark = bookmarks[index];
             document.getElementById('modalTitle').textContent = '编辑书签';
             document.getElementById('bookmarkTitle').value = bookmark.title;
             document.getElementById('bookmarkUrl').value = bookmark.url;
             document.getElementById('bookmarkFolder').value = bookmark.folder || '';
             document.getElementById('bookmarkDescription').value = bookmark.description || '';
-            document.getElementById('bookmarkTags').value = bookmark.tags.join(', ');
+            document.getElementById('bookmarkTags').value = bookmark.tags ? bookmark.tags.join(', ') : '';
             updateBookmarkFolderOptions();
             document.getElementById('bookmarkModal').style.display = 'block';
         }
 
-        // 删除书签
         function deleteBookmark(index) {
             if (confirm('确定要删除这个书签吗？')) {
                 bookmarks.splice(index, 1);
@@ -1513,27 +2290,40 @@
             }
         }
 
-        // 保存书签
         function saveBookmark(event) {
             event.preventDefault();
             
-            const title = document.getElementById('bookmarkTitle').value.trim();
-            const url = document.getElementById('bookmarkUrl').value.trim();
-            const folder = document.getElementById('bookmarkFolder').value;
-            const description = document.getElementById('bookmarkDescription').value.trim();
-            const tagsString = document.getElementById('bookmarkTags').value.trim();
-            const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
+            var title = document.getElementById('bookmarkTitle').value.trim();
+            var url = document.getElementById('bookmarkUrl').value.trim();
+            var folder = document.getElementById('bookmarkFolder').value;
+            var description = document.getElementById('bookmarkDescription').value.trim();
+            var tagsString = document.getElementById('bookmarkTags').value.trim();
+            var tags = [];
+            if (tagsString) {
+                var tagArray = tagsString.split(',');
+                for (var i = 0; i < tagArray.length; i++) {
+                    var tag = tagArray[i].trim();
+                    if (tag) tags.push(tag);
+                }
+            }
             
-            const bookmarkData = {
-                id: editingIndex === -1 ? 'bm_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9) : bookmarks[editingIndex].id,
-                title,
-                url,
-                folder,
-                description,
-                tags,
-                createdAt: editingIndex === -1 ? new Date().toISOString() : bookmarks[editingIndex].createdAt,
-                updatedAt: new Date().toISOString(),
-                deviceId: deviceId
+            var bookmarkId = editingIndex === -1 ? 
+                'bm_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9) : 
+                bookmarks[editingIndex].id;
+            
+            var bookmarkCreatedAt = editingIndex === -1 ? 
+                new Date().toISOString() : 
+                bookmarks[editingIndex].createdAt;
+            
+            var bookmarkData = {
+                id: bookmarkId,
+                title: title,
+                url: url,
+                folder: folder,
+                description: description,
+                tags: tags,
+                createdAt: bookmarkCreatedAt,
+                updatedAt: new Date().toISOString()
             };
             
             if (editingIndex === -1) {
@@ -1550,116 +2340,204 @@
             hideModal();
             renderBookmarks();
             updateStats();
+            return false;
         }
 
-        // 隐藏模态框
         function hideModal() {
             document.getElementById('bookmarkModal').style.display = 'none';
         }
 
-        // 搜索书签
         function searchBookmarks() {
-            const searchTerm = document.querySelector('.search-input').value.toLowerCase();
+            var searchInput = document.querySelector('.search-input');
+            if (!searchInput) return;
+            
+            var searchTerm = searchInput.value.toLowerCase();
             
             if (!searchTerm) {
                 renderBookmarks();
                 return;
             }
             
-            const filteredBookmarks = bookmarks.map((bookmark, index) => ({
-                ...bookmark,
-                originalIndex: index
-            })).filter(bookmark => 
-                bookmark.title.toLowerCase().includes(searchTerm) ||
-                bookmark.url.toLowerCase().includes(searchTerm) ||
-                bookmark.description.toLowerCase().includes(searchTerm) ||
-                bookmark.folder.toLowerCase().includes(searchTerm) ||
-                bookmark.tags.some(tag => tag.toLowerCase().includes(searchTerm))
-            );
+            var filteredBookmarks = [];
+            for (var i = 0; i < bookmarks.length; i++) {
+                var bookmark = bookmarks[i];
+                var matchTitle = bookmark.title && bookmark.title.toLowerCase().indexOf(searchTerm) !== -1;
+                var matchUrl = bookmark.url && bookmark.url.toLowerCase().indexOf(searchTerm) !== -1;
+                var matchDesc = bookmark.description && bookmark.description.toLowerCase().indexOf(searchTerm) !== -1;
+                var matchFolder = bookmark.folder && bookmark.folder.toLowerCase().indexOf(searchTerm) !== -1;
+                var matchTags = false;
+                if (bookmark.tags) {
+                    for (var t = 0; t < bookmark.tags.length; t++) {
+                        if (bookmark.tags[t].toLowerCase().indexOf(searchTerm) !== -1) {
+                            matchTags = true;
+                            break;
+                        }
+                    }
+                }
+                
+                if (matchTitle || matchUrl || matchDesc || matchFolder || matchTags) {
+                    var bookmarkCopy = {
+                        id: bookmark.id,
+                        title: bookmark.title,
+                        url: bookmark.url,
+                        folder: bookmark.folder,
+                        description: bookmark.description,
+                        tags: bookmark.tags,
+                        createdAt: bookmark.createdAt,
+                        updatedAt: bookmark.updatedAt,
+                        originalIndex: i
+                    };
+                    filteredBookmarks.push(bookmarkCopy);
+                }
+            }
             
             renderBookmarks(filteredBookmarks);
         }
 
-        // 更新统计信息
         function updateStats() {
-            const totalBookmarks = bookmarks.length;
-            const totalFolders = folders.length;
-            const allTags = new Set();
-            let todayAdded = 0;
-            const today = new Date().toDateString();
+            var totalBookmarks = bookmarks.length;
+            var totalFolders = folders.length;
+            var allTags = [];
+            var todayAdded = 0;
+            var today = new Date().toDateString();
             
-            bookmarks.forEach(bookmark => {
-                bookmark.tags.forEach(tag => allTags.add(tag));
-                if (new Date(bookmark.createdAt).toDateString() === today) {
-                    todayAdded++;
+            for (var i = 0; i < bookmarks.length; i++) {
+                var bookmark = bookmarks[i];
+                if (bookmark.tags) {
+                    for (var t = 0; t < bookmark.tags.length; t++) {
+                        var tag = bookmark.tags[t];
+                        var found = false;
+                        for (var a = 0; a < allTags.length; a++) {
+                            if (allTags[a] === tag) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) allTags.push(tag);
+                    }
                 }
-            });
+                if (bookmark.createdAt) {
+                    var createdDate = new Date(bookmark.createdAt).toDateString();
+                    if (createdDate === today) {
+                        todayAdded++;
+                    }
+                }
+            }
             
             document.getElementById('totalBookmarks').textContent = totalBookmarks;
             document.getElementById('totalFolders').textContent = totalFolders;
-            document.getElementById('totalTags').textContent = allTags.size;
+            document.getElementById('totalTags').textContent = allTags.length;
             document.getElementById('todayAdded').textContent = todayAdded;
         }
 
-        // 点击模态框外部关闭
-        window.onclick = function(event) {
-            const modals = ['bookmarkModal', 'folderModal', 'moveModal'];
-            modals.forEach(modalId => {
-                const modal = document.getElementById(modalId);
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                    if (modalId === 'moveModal') {
-                        moveBookmarkIndex = -1;
-                    }
-                }
-            });
-        }
-
-        // 键盘快捷键
-        document.addEventListener('keydown', function(event) {
-            if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
-                event.preventDefault();
-                document.querySelector('.search-input').focus();
+        function showMainContent() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            
+            if (currentUser) {
+                document.getElementById('currentUserDisplay').textContent = currentUser.username;
             }
             
-            if ((event.ctrlKey || event.metaKey) && event.key === 'n' && isLoggedIn) {
+            var adminBtn = document.getElementById('adminBtn');
+            if (isAdmin) {
+                adminBtn.style.display = 'inline-block';
+            } else {
+                adminBtn.style.display = 'none';
+            }
+            
+            pullFromCloud();
+            loadFolders();
+            updateStats();
+            
+            var lastSync = localStorage.getItem(CONFIG.lastSyncKey);
+            if (lastSync) {
+                var syncDate = new Date(lastSync);
+                document.getElementById('lastSync').textContent = syncDate.toLocaleTimeString();
+            }
+        }
+
+        // ========== 事件监听 ==========
+        
+        window.onclick = function(event) {
+            var modals = ['bookmarkModal', 'folderModal', 'moveModal', 'changePasswordModal', 'changeUsernameModal'];
+            for (var i = 0; i < modals.length; i++) {
+                var modal = document.getElementById(modals[i]);
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    if (modals[i] === 'moveModal') {
+                        moveBookmarkIndex = -1;
+                    }
+                    if (modals[i] === 'changePasswordModal') {
+                        changePasswordTargetUser = '';
+                    }
+                    if (modals[i] === 'changeUsernameModal') {
+                        changeUsernameTargetUser = '';
+                    }
+                }
+            }
+        };
+
+        document.addEventListener('keydown', function(event) {
+            if (!isLoggedIn) return;
+            
+            if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+                event.preventDefault();
+                var searchInput = document.querySelector('.search-input');
+                if (searchInput) searchInput.focus();
+            }
+            
+            if ((event.ctrlKey || event.metaKey) && event.key === 'n') {
                 event.preventDefault();
                 showAddModal();
             }
             
-            if ((event.ctrlKey || event.metaKey) && event.key === 's' && isLoggedIn) {
+            if ((event.ctrlKey || event.metaKey) && event.key === 's') {
                 event.preventDefault();
                 manualSync();
             }
             
-            if ((event.ctrlKey || event.metaKey) && event.key === 'f' && isLoggedIn) {
+            if ((event.ctrlKey || event.metaKey) && event.key === 'f') {
                 event.preventDefault();
                 showFolderModal();
             }
             
-            if (event.key === 'Escape') {
+            if (event.key === 'Escape' || event.keyCode === 27) {
                 hideModal();
                 hideFolderModal();
                 hideMoveModal();
-                hideUpdateBanner();
+                hideChangePasswordModal();
+                hideChangeUsernameModal();
             }
         });
 
-        // 页面卸载前同步
-        window.addEventListener('beforeunload', function() {
-            if (pendingSyncItems.size > 0 && navigator.onLine) {
-                navigator.sendBeacon(CONFIG.syncEndpoint, JSON.stringify({
-                    deviceId: deviceId,
-                    action: 'quick_sync',
-                    bookmarks: bookmarks,
-                    folders: folders,
-                    timestamp: new Date().toISOString()
-                }));
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeUsers();
+            initializeDragAndDrop();
+            
+            updateClock();
+            setInterval(updateClock, 1000);
+            
+            window.addEventListener('online', function() {
+                updateSyncStatus('synced', '已连接');
+            });
+            
+            window.addEventListener('offline', function() {
+                updateSyncStatus('offline', '离线模式');
+            });
+            
+            if (navigator.onLine && getCloudApiUrl()) {
+                var systemConfig = getSystemConfig();
+                syncInterval = setInterval(function() {
+                    if (pendingSyncItems.length > 0) {
+                        syncToCloud();
+                    }
+                }, systemConfig.syncInterval * 1000);
+                
+                updateSyncStatus('synced', '已连接');
+            } else {
+                updateSyncStatus('offline', '离线模式');
             }
         });
-
-        // 定期检查更新（每30分钟）
-        setInterval(checkForUpdates, 30 * 60 * 1000);
     </script>
 </body>
 </html>
